@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('inicio'));
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 
     /**
@@ -44,9 +44,4 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
-
-    protected function authenticated(Request $request, $user)
-    {
-        return redirect()->route('inicio');
-    }
-}
+} //comentario
