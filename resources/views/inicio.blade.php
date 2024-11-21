@@ -23,6 +23,7 @@
                 <li><a href="{{ url('/productos') }}">Productos</a></li>
                 <li><a href="{{ url('/repartidor') }}">Repartos</a></li>
                 <li><a href="{{ url('/login') }}">login</a></li>
+                <li>Holaaa</li>
             </ul>
         </nav>
     </header>
