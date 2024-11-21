@@ -10,6 +10,6 @@ class InicioController extends Controller
     public function index()
     {
         $productos = Productos::all();
-        return view('productos', compact('productos'));
+        return view('inicio', compact('productos'));
     }
 }

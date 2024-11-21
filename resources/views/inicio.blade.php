@@ -6,11 +6,11 @@
     <title>Página de Inicio</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Sofadi+One&family=Teko:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Sofadi+One&family=Teko:wght@300..700&display=swap" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sofadi+One&family=Teko:wght@300..700&display=swap');
-        </style>
+    </style>
 </head>
 <body id="space" class="bodyLogin">
 
@@ -23,13 +23,10 @@
                 <li><a href="{{ url('/productos') }}">Productos</a></li>
                 <li><a href="{{ url('/repartidor') }}">Repartos</a></li>
                 <li><a href="{{ url('/login') }}">login</a></li>
-                <li><a href="{{ url('/register') }}">registro</a></li>
             </ul>
         </nav>
     </header>
     
-    
-
     <main>
         <section class="hero">
             <h1>Bienvenido a LogFood</h1>
