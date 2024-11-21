@@ -4,10 +4,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', [InicioController::class, 'index'])->name('home');
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -37,8 +36,6 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
-// Rutas para productos
-Route::get('/productos', [ProductController::class, 'index']);
-Route::get('/api/productos', [ProductController::class, 'apiIndex']);
+Route::get('/', [InicioController::class, 'index'])->name('inicio');
 
 require __DIR__.'/auth.php';

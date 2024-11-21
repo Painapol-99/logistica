@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Inicio</title>
+    <title>Inicio</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,6 +55,15 @@
                 <p>Estamos aquí para ayudarte las 24 horas, todos los días.</p>
             </div>
         </section>
+        </section>
+
+        <section class="productos">
+            <h1>Productos</h1>
+            <ul>
+                @foreach($productos as $producto)
+                    <li>{{ $producto->nombre }} - ${{ $producto->precio }}</li>
+                @endforeach
+            </ul>
         </section>
     </main>
 
