@@ -23,6 +23,7 @@
                 <li><a href="{{ url('/productos') }}">Productos</a></li>
                 <li><a href="{{ url('/repartidor') }}">Repartos</a></li>
                 <li><a href="{{ url('/login') }}">login</a></li>
+                <li><a href="{{ url('/compras') }}">comprar</a></li>
             </ul>
         </nav>
     </header>
@@ -53,7 +54,8 @@
                 <h3>Soporte Completo</h3>
                 <p>Estamos aquí para ayudarte las 24 horas, todos los días.</p>
             </div>
-        </section>
+            
+        </section> 
         </section>
 
         <section class="productos">

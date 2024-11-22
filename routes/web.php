@@ -3,10 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\InicioController;
+use App\Http\Controllers\CompraController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ProductoController;
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -39,3 +40,12 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 Route::get('/', [InicioController::class, 'index'])->name('inicio');
 
 require __DIR__.'/auth.php';
+
+
+Route::get('/compras', [CompraController::class, 'index'])->name('compras.index');
+Route::post('/carrito/agregar', [CompraController::class, 'agregarCarrito'])->name('carrito.agregar');
+Route::get('/carrito', [CompraController::class, 'mostrarCarrito'])->name('carrito.mostrar');
+Route::post('/comprar', [CompraController::class, 'procesarCompra'])->name('comprar');
+
+Route::resource('categorias', CategoriaController::class)->except(['create', 'edit']);
+Route::resource('productos', ProductoController::class)->except(['create', 'edit']);
