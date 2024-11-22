@@ -20,6 +20,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+Route::get('/carrito', [ProductoController::class, 'carrito'])->name('compras.carrito');
+
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
     ->middleware('guest')

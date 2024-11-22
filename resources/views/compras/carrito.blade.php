@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-app-layout>
 <div class="container">
     <h1>Carrito de Compras</h1>
     @if(empty($carrito))
@@ -35,4 +33,4 @@
     </form>
     @endif
 </div>
-@endsection
+</x-app-layout>

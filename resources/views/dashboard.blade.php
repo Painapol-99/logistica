@@ -24,7 +24,7 @@
                 <li><a href="{{ url('/') }}">Inicio</a></li>
                 <li><a href="{{ url('/about') }}">Sobre Nosotros</a></li>
                 <li><a href="{{ url('/productos') }}">Productos</a></li>
-                <li><a href="{{ url('/repartidor') }}">Repartos</a></li>
+                <li><a href="{{ url('/carrito') }}">Carrito</a></li>
                 <li><a href="{{ url('/contact') }}">Contacto</a></li>
                 
             </ul>

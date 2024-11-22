@@ -17,16 +17,16 @@ class CompraController extends Controller
     {
         $carrito = session()->get('carrito', []);
         $id = $request->input('id');
-        $productos = Producto::find($id);
+        $producto = Producto::find($id);
 
-        if ($productos) {
+        if ($producto) {
             if (isset($carrito[$id])) {
                 $carrito[$id]['cantidad']++;
             } else {
                 $carrito[$id] = [
-                    'nombre' => $productos->nombre,
-                    'precio' => $productos->precio,
+                    'nombre' => $producto->nombre,
                     'cantidad' => 1,
+                    'precio' => $producto->precio
                 ];
             }
             session()->put('carrito', $carrito);
@@ -44,6 +44,6 @@ class CompraController extends Controller
     public function procesarCompra(Request $request)
     {
         session()->forget('carrito');
-        return redirect()->route('compras.index')->with('success', 'Compra realizada con éxito.');
+        return redirect()->route('productos.index')->with('success', 'Compra realizada con éxito.');
     }
 }

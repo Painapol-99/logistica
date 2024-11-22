@@ -21,7 +21,7 @@
             <ul>
                 <li><a href="{{ url('/') }}">Inicio</a></li>
                 <li><a href="{{ url('/producto') }}">Productos</a></li>
-                <li><a href="{{ url('/repartidor') }}">Repartos</a></li>
+                <li><a href="{{ url('/carrito') }}">Carrito</a></li>
                 <li><a href="{{ url('/login') }}">login</a></li>
                 
 
