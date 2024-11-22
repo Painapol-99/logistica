@@ -11,11 +11,6 @@ class Reparto extends Model
 
     protected $fillable = ['idPedido', 'idRepartidor', 'fecha'];
 
-    public function pedido()
-    {
-        return $this->belongsTo(Pedido::class, 'idPedido');
-    }
-
     public function repartidor()
     {
         return $this->belongsTo(User::class, 'idRepartidor');

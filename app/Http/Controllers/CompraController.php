@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Productos;
+use App\Models\Producto;
 
 class CompraController extends Controller
 {
     public function index()
     {
-        $productos = Productos::all();
+        $productos = Producto::all();
         return view('compras.index', compact('productos'));
     }
 
@@ -17,7 +17,7 @@ class CompraController extends Controller
     {
         $carrito = session()->get('carrito', []);
         $id = $request->input('id');
-        $productos = Productos::find($id);
+        $productos = Producto::find($id);
 
         if ($productos) {
             if (isset($carrito[$id])) {

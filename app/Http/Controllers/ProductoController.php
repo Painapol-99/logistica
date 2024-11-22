@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Productos;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 
-class ProductosController extends Controller
+class ProductoController extends Controller
 {
 
     public function index()
     {
-        $productos = Productos::all();
+        $productos = Producto::all();
         return view('productos.index', compact('productos'));
     }
 
@@ -25,15 +25,15 @@ class ProductosController extends Controller
             'categoria' => 'required|exists:categorias,id',
         ]);
 
-        return Productos::create($request->all());
+        return Producto::create($request->all());
     }
 
-    public function show(Productos $productos)
+    public function show(Producto $productos)
     {
         return $productos;
     }
 
-    public function update(Request $request, Productos $productos)
+    public function update(Request $request, Producto $productos)
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
@@ -46,7 +46,7 @@ class ProductosController extends Controller
         return $productos;
     }
 
-    public function destroy(Productos $productos)
+    public function destroy(Producto $productos)
     {
         $productos->delete();
 
