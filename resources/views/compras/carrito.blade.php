@@ -1,4 +1,19 @@
 <x-app-layout>
+    <x-slot name="content">
+        <x-dropdown-link :href="route('profile.edit')">
+            {{ __('Profile') }}
+        </x-dropdown-link>
+        <x-dropdown-link :href="route('logout')"
+                onclick="event.preventDefault();
+                            this.closest('form').submit();">
+            {{ __('Log Out') }}
+        </x-dropdown-link>
+        <button onclick="location.href='{{ route('profile.edit') }}'" class="btn btn-primary mt-2">Profile</button>
+        <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-danger mt-2">Logout</button>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+    </x-slot>
 <div class="container">
     <h1>Carrito de Compras</h1>
     @if(empty($carrito))
