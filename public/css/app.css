@@ -22,22 +22,24 @@ body {
     min-height: 100vh;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(-45deg, #46d5da, #222222, #FFC244, #ff6f61);
+    background: linear-gradient(-45deg, #46d5da, #222222, #39c039, #09532e);
     background-size: 400% 400%;
     animation: fondoDinamico 15s ease infinite;
 }
 
 header {
+    width: 100%; /* Asegura que ocupe el ancho completo */
     background: #222222;
     color: #FFC244;
     padding: 1rem 2rem;
-    width: 100%;
     display: flex; 
     align-items: center; 
     justify-content: space-between; 
     flex-wrap: wrap;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Evita que el padding afecte el ancho total */
 }
+
 
 header p {
     color: #fff;
@@ -71,81 +73,92 @@ header nav ul li a:hover {
 
 .hero {
     margin: 2rem auto;
-    padding: 2rem;
+    padding: 2.5rem;
     text-align: center;
-    background: #ffffff;
-    color: #000000;
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(145deg, #46d5da, #39c039); /* Fondo degradado */
+    color: #ffffff; /* Texto claro */
+    border-radius: 30px; /* Bordes suaves */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.3); /* Sombra externa e interna */
     max-width: 800px;
     width: 90%;
+    backdrop-filter: blur(8px); /* Efecto de vidrio */
+    font-weight: bold;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animación al pasar el cursor */
 }
 
+
 .hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 2.8rem; /* Tamaño destacado */
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Sombra en el texto */
 }
 
 .hero p {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .hero .btn {
     display: inline-block;
-    padding: 0.5em 1.5em;
-    background: #46d5da;
+    padding: 0.7em 1.7em;
+    background: #222222;
     color: #ffffff;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 25px; /* Botón más suave */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     margin: 0.5em;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .hero .btn:hover {
-    background: #222222;
-    box-shadow: 0 0 10px #fff;
+    background: #FFC244; /* Cambio a un color brillante */
+    transform: scale(1.1); /* Animación de zoom */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
 .carac {
     text-align: center;
-    color: #000000;
+    color: #ffffff; /* Cambiamos el color del texto */
     margin: 2rem auto;
     padding: 2rem;
-    background: #ffffff;
-    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.7); /* Fondo oscuro translúcido */
+    border-radius: 30px;
     max-width: 900px;
     width: 90%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Sombra flotante */
+    backdrop-filter: blur(10px); /* Efecto de desenfoque */
 }
 
+
 .carac h2 {
-    color: #000;
+    color: #ffffff;
     font-size: 2rem;
     margin-bottom: 1.5rem;
 }
 
 .features {
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: center; 
-    gap: 20px; 
+    display: grid; /* Cambiamos a diseño de rejilla */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Distribución flexible */
+    gap: 20px;
+    padding: 2em;
 }
 
+
 .caja {
-    flex: 1 1 300px;
-    max-width: 300px; 
-    background: #fff; 
-    border: 1px solid #ddd; 
-    border-radius: 8px; 
-    padding: 1em;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(145deg, #46d5da, #39c039); /* Degradado */
+    border-radius: 50px; /* Bordes curvados */
+    padding: 1.5em;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.3); /* Sombra interna y externa */
+    color: #ffffff;
     text-align: center;
+    font-weight: bold;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .caja:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-10px); /* Efecto flotante al pasar el ratón */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
 footer {
@@ -154,5 +167,167 @@ footer {
     background: #222222; 
     color: #fff;
     margin-top: auto;
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+}
+    
+
+
+
+/* Fondo dinámico exclusivo */
+#space-2 {
+    background: linear-gradient(-45deg, #6a11cb, #2575fc, #43e97b, #38f9d7);
+    background-size: 400% 400%;
+    animation: fondoDinamico 15s ease infinite;
+}
+
+/* Header específico */
+.header-2 {
     width: 100%;
+    background: #222222;
+    color: #FFC244;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Coloca el logo y la navegación en los extremos */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Logo y texto centrado */
+.logo-2 {
+    width: 280px; /* Ajusta el tamaño del logo */
+}
+
+.logo-text-2 {
+    font-family: "Amatic SC", sans-serif;
+    font-size: 2.5rem;
+    color: #fff;
+    position: absolute; /* Hace que el texto esté centrado en el header */
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 700;
+}
+
+/* Navegación */
+.nav-2 {
+    display: flex;
+    align-items: center;
+}
+
+.nav-2 ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-2 ul li {
+    margin: 0 15px;
+}
+
+.nav-2 ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.nav-2 ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Hero Section */
+.hero-2 {
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+    background: linear-gradient(145deg, #46d5da, #39c039); /* Fondo degradado */
+    color: #ffffff;
+    border-radius: 30px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.3); /* Sombra externa e interna */
+    max-width: 800px;
+    width: 90%;
+    backdrop-filter: blur(8px); /* Efecto de vidrio */
+    font-weight: bold;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-2 h1 {
+    font-size: 2.8rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Sombra en el texto */
+}
+
+.hero-2 p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.hero-buttons-2 .btn-2 {
+    display: inline-block;
+    padding: 0.7em 1.7em;
+    background: #222222;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 25px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    margin: 0.5em;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.hero-buttons-2 .btn-2:hover {
+    background: #FFC244;
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Características */
+.carac-2 {
+    text-align: center;
+    color: #ffffff;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.7); /* Fondo oscuro translúcido */
+    border-radius: 30px;
+    max-width: 900px;
+    width: 90%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px); /* Efecto de desenfoque */
+}
+
+.features-2 {
+    display: grid; /* Cambiamos a diseño de rejilla */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Distribución flexible */
+    gap: 20px;
+    padding: 2em;
+}
+
+.caja-2 {
+    background: linear-gradient(145deg, #46d5da, #39c039); /* Degradado */
+    border-radius: 50px;
+    padding: 1.5em;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.caja-2:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* Footer específico */
+.footer-2 {
+    text-align: center;
+    padding: 1rem;
+    background: #222222;
+    color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: auto;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
