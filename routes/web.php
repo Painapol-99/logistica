@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\CarritoController;
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -20,7 +21,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
-Route::get('/carrito', [ProductoController::class, 'carrito'])->name('compras.carrito');
 
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
@@ -47,6 +47,8 @@ require __DIR__.'/auth.php';
 
 
 Route::get('/compras', [CompraController::class, 'index'])->name('compras.index');
+Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+Route::get('/carrito', [CarritoController::class, 'mostrar'])->name('carrito.mostrar');
 Route::post('/carrito/agregar', [CompraController::class, 'agregarCarrito'])->name('carrito.agregar');
 Route::get('/carrito', [CompraController::class, 'mostrarCarrito'])->name('carrito.mostrar');
 Route::post('/comprar', [CompraController::class, 'procesarCompra'])->name('comprar');
