@@ -15,7 +15,7 @@
 <body id="space" class="bodyLogin">
 
     <header>
-        <img class="logo" src="img/logoCamion.png" alt="280" width="280"/>
+        <img class="logo" src="logoCamion.png" alt="280" width="280"/>
         <p>Logfood</p>
         <nav>
             <ul>
