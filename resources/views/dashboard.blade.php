@@ -11,6 +11,7 @@
 </head>
 <body id="space-2">
 
+<<<<<<< HEAD
   <header class="header-2">
     <img class="logo-2" src="{{ asset('logocamion.png') }}" alt="LogFood Logo" width="280"/>
     <p class="logo-text-2">Logfood</p>
@@ -24,6 +25,27 @@
       </ul>
     </nav>
   </header>
+=======
+    <header>
+        
+        <img class="logo" src="{{ asset('img/logocamion.png') }}" alt="280" width="280"/>
+        <p>Logfood</p>
+        <nav>
+            <ul>
+                <li><a href="{{ url('/') }}">Inicio</a></li>
+                <li><a href="{{ url('/about') }}">Sobre Nosotros</a></li>
+                <li><a href="{{ url('/productos') }}">Productos</a></li>
+                <li><a href="{{ url('/carrito') }}">Carrito</a></li>
+                <li><a href="{{ url('/contact') }}">Contacto</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <h1>Bienvenido a LogFood</h1>
+>>>>>>> 224f064f5d178de5e6a11280d9303d0ed1ab3b83
 
   <main class="main-2">
     <section class="hero-2">

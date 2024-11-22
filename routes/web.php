@@ -7,7 +7,7 @@ use App\Http\Controllers\CompraController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\ProductosController;
+use App\Http\Controllers\ProductoController;
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -19,7 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/productos', [ProductosController::class, 'index'])->name('productos.index');
+Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+Route::get('/carrito', [ProductoController::class, 'carrito'])->name('compras.carrito');
+
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
     ->middleware('guest')
@@ -50,4 +52,4 @@ Route::get('/carrito', [CompraController::class, 'mostrarCarrito'])->name('carri
 Route::post('/comprar', [CompraController::class, 'procesarCompra'])->name('comprar');
 
 Route::resource('categorias', CategoriaController::class)->except(['create', 'edit']);
-Route::resource('productos', ProductosController::class)->except(['create', 'edit']);
+Route::resource('productos', ProductoController::class)->except(['create', 'edit']);

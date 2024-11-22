@@ -9,6 +9,7 @@
         <!-- Fila de productos -->
         <div class="row justify-content-start">
             @foreach($productos as $producto)
+<<<<<<< HEAD
             <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                 <!-- Tarjeta de producto -->
                 <div class="card shadow-lg rounded" style="border: none; overflow: hidden; transition: transform 0.3s; background-color: #fff;">
@@ -24,12 +25,21 @@
                         <button class="btn btn-outline-primary agregar-carrito" data-id="{{ $producto->id }}" style="transition: background-color 0.3s, transform 0.2s;">
                             Agregar al Carrito
                         </button>
+=======
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $producto->nombre }}</h5>
+                        <p class="card-text">{{ $producto->descripcion }}</p>
+                        <p class="card-text">Precio: ${{ $producto->precio }}</p>
+>>>>>>> 224f064f5d178de5e6a11280d9303d0ed1ab3b83
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
     </div>
+<<<<<<< HEAD
 
     <script>
         // Evento para agregar al carrito
@@ -80,3 +90,6 @@
         });
     </script>
 </x-app-layout>
+=======
+</x-app-layout>
+>>>>>>> 224f064f5d178de5e6a11280d9303d0ed1ab3b83

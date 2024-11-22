@@ -7,6 +7,19 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Inicio</title>
+            <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Sofadi+One&family=Teko:wght@300..700&display=swap" rel="stylesheet">
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Sofadi+One&family=Teko:wght@300..700&display=swap');
+            </style>
+        </head>
+        
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -20,11 +33,20 @@
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
+            <header>
+                <img class="logo" src="{{ asset('img/logocamion.png') }}" alt="280" width="280"/>
+                <p>Logfood</p>
+                <nav>
+                    <ul>
+                        <li><a href="{{ url('/') }}">Inicio</a></li>
+                        <li><a href="{{ url('/about') }}">Sobre Nosotros</a></li>
+                        <li><a href="{{ url('/productos') }}">Productos</a></li>
+                        <li><a href="{{ url('/carrito') }}">Carrito</a></li>
+                        <li><a href="{{ url('/contact') }}">Contacto</a></li>
+                        
+                    </ul>
+                </nav>
+            </header>
             @endisset
 
             <!-- Page Content -->
@@ -33,4 +55,8 @@
             </main>
         </div>
     </body>
+    <footer>
+        <p>&copy; {{ date('Y') }} LogFood. Todos los derechos reservados.</p>
+    </footer>
+    <script src="js/script.js"></script>
 </html>

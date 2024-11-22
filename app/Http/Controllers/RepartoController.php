@@ -9,16 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class RepartoController extends Controller
 {
-    
-    public function index()
-    {
-        $pedidos = Pedido::with(['local', 'local.user'])
-            ->whereDoesntHave('reparto') 
-            ->get();
-
-        return view('repartidor.index', compact('pedidos'));
-    }
-
     public function registrarReparto($idPedido)
     {
         Reparto::create([
