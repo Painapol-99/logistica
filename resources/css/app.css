@@ -12,25 +12,13 @@ body {
     display: flex; 
     flex-direction: column; 
     min-height: 100vh;
-<<<<<<< HEAD
     background-color: #46d5da;
     align-items: center;
-=======
-    background-image: url('../img/fondoninicio.jpg');
-    background-size: cover;
-    background-repeat: no-repeat; 
-    background-position: center;
-}
-
-h1 {
-    color: black;
->>>>>>> 224f064f5d178de5e6a11280d9303d0ed1ab3b83
 }
 
 header {
     background: #222222;
     color: #FFC244;
-<<<<<<< HEAD
     padding: 1rem 2rem;
     width: 100%;
     display: flex; 
@@ -38,39 +26,17 @@ header {
     justify-content: space-between; 
     flex-wrap: wrap;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-=======
-    padding: 3rem 1rem; /* Corregido: padding no puede usar coma */
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between;
->>>>>>> 224f064f5d178de5e6a11280d9303d0ed1ab3b83
 }
 
 header p {
     color: #fff;
     font-size: 2.5rem;
     text-align: center;
-<<<<<<< HEAD
-=======
-    flex-grow: 1; 
-    margin-right: -6rem; /* Verifica si este margen negativo es necesario */
->>>>>>> 224f064f5d178de5e6a11280d9303d0ed1ab3b83
     font-family: "Amatic SC", sans-serif;
     font-weight: 700;
     margin: 0;
 }
 
-<<<<<<< HEAD
-=======
-header .logo {
-    margin-right: auto; 
-}
-
-header nav {
-    margin-left: auto; 
-}
-
->>>>>>> 224f064f5d178de5e6a11280d9303d0ed1ab3b83
 header nav ul {
     list-style: none;
     display: flex; 
@@ -96,19 +62,7 @@ header nav ul li a:hover {
     margin: 2rem auto;
     padding: 2rem;
     text-align: center;
-<<<<<<< HEAD
     background: #ffffff;
-=======
-    color: #000000;
-    margin: 2rem auto; /* Corregido: márgenes más flexibles */
-    min-width: 24rem;
-    border-radius: 3rem;
-    background: #ffffff;
-    box-shadow: 0 0 10px rgb(255, 255, 255);
-}
-
-.hero h1 {
->>>>>>> 224f064f5d178de5e6a11280d9303d0ed1ab3b83
     color: #000000;
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -137,7 +91,6 @@ header nav ul li a:hover {
     transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-<<<<<<< HEAD
 .hero .btn:hover {
     background: #222222;
     box-shadow: 0 0 10px #fff;
@@ -158,66 +111,6 @@ header nav ul li a:hover {
     color: #000;
     font-size: 2rem;
     margin-bottom: 1.5rem;
-=======
-.btn:hover {
-    box-shadow: 0 0 10px rgb(255, 255, 255);
-    background: #222222;
-    color: #fff;
-}
-
-.container {
-    margin: 20px auto;
-    max-width: 800px;
-}
-
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.table th, .table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-.table th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
-
-.table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.table tr:hover {
-    background-color: #f1f1f1;
-}
-
-main {
-    flex: 1; 
-}
-
-footer {
-    text-align: center;
-    padding: 1em 0;
-    background: #222222; 
-    color: #fff;
-    margin-top: 0;
-}
-
-.carac {
-    padding: 1rem 0;
-    text-align: center;
-    color: #000000;
-    margin: 0 22rem;
-    border-radius: 3rem;
-}
-
-.carac h2 {
-    color: #fff;
->>>>>>> 224f064f5d178de5e6a11280d9303d0ed1ab3b83
 }
 
 .features {
@@ -225,10 +118,6 @@ footer {
     flex-wrap: wrap; 
     justify-content: center; 
     gap: 20px; 
-<<<<<<< HEAD
-=======
-    padding: 2em; 
->>>>>>> 224f064f5d178de5e6a11280d9303d0ed1ab3b83
 }
 
 .caja {
@@ -240,7 +129,6 @@ footer {
     padding: 1em;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-<<<<<<< HEAD
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -250,47 +138,6 @@ footer {
 }
 
 footer {
-=======
-}
-
-/* Fondo de estrellas */
-#space {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image: url('../img/fondoninicio.jpg');
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    background-position: center; 
-    overflow: hidden;
-}
-
-.star {
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-    border-radius: 50%;
-    animation: moveStar linear infinite;
-}
-
-@keyframes moveStar {
-    0% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh);
-        opacity: 0;
-    }
-}
-
-.wave {
-    width: 70px;
-    height: 70px;
-    background-color: rgb(255, 0, 0);
-    margin: 100px auto;
-    animation: wave 2s infinite;
-    padding: 1rem;
->>>>>>> 224f064f5d178de5e6a11280d9303d0ed1ab3b83
     text-align: center;
     padding: 1em 0;
     background: #222222; 
@@ -298,15 +145,3 @@ footer {
     margin-top: auto;
     width: 100%;
 }
-<<<<<<< HEAD
-=======
-
-@keyframes wave {
-    0%, 100% {
-        border-radius: 0;
-    }
-    50% {
-        border-radius: 50%;
-    }
-}
->>>>>>> 224f064f5d178de5e6a11280d9303d0ed1ab3b83
