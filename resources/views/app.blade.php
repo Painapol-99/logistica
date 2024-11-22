@@ -9,20 +9,20 @@
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}"> 
 
-    @vite(['resources/js/app.js']) 
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
 </head>
 <body>
 
     <nav>
         <ul>
             <li><a href="{{ url('/') }}">Inicio</a></li>
-            <li><a href="{{ route('productos.index') }}">Productos</a></li>
+            <li><a href="{{ url('/productos') }}">Productos</a></li>
             <li><a href="{{ url('/contacto') }}">Contacto</a></li>
         </ul>
     </nav>
 
-    <main class="container">
-        @yield('content')
+    <main>
         {{$slot}}
     </main>
 

@@ -54,19 +54,11 @@
             <div class="caja">
                 <h3>Soporte Completo</h3>
                 <p>Estamos aquí para ayudarte las 24 horas, todos los días.</p>
-            </div>
-            
+            </div> 
         </section> 
         </section>
 
-        <section class="productos">
-            <h1>Productos</h1>
-            <ul>
-                @foreach($productos as $productos)
-                    <li>{{ $productos->nombre }} - ${{ $productos->precio }}</li>
-                @endforeach
-            </ul>
-        </section>
+        
     </main>
 
     <footer>

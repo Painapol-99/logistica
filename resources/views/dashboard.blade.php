@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Inicio</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Sofadi+One&family=Teko:wght@300..700&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
 
     <header>
         
-        <img class="logo" src="{{ asset('img/logoCamion.png') }}" alt="280" width="280"/>
+        <img class="logo" src="{{ asset('img/logocamion.png') }}" alt="280" width="280"/>
         <p>Logfood</p>
         <nav>
             <ul>
