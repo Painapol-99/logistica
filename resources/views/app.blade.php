@@ -23,11 +23,12 @@
 
     <main class="container">
         @yield('content')
+        {{$slot}}
     </main>
 
     <footer>
         <p>&copy; {{ date('Y') }} LogFood. Todos los derechos reservados.</p>
     </footer>
-
+ 
 </body>
 </html>

@@ -7,7 +7,7 @@ use App\Http\Controllers\CompraController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ProductosController;
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -48,4 +48,4 @@ Route::get('/carrito', [CompraController::class, 'mostrarCarrito'])->name('carri
 Route::post('/comprar', [CompraController::class, 'procesarCompra'])->name('comprar');
 
 Route::resource('categorias', CategoriaController::class)->except(['create', 'edit']);
-Route::resource('productos', ProductoController::class)->except(['create', 'edit']);
+Route::resource('productos', ProductosController::class)->except(['create', 'edit']);

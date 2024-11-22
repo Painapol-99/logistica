@@ -23,9 +23,9 @@ class ProductosController extends Controller
         return Productos::create($request->all());
     }
 
-    public function show(Productos $producto)
+    public function show(Productos $productos)
     {
-        return $producto;
+        return $productos;
     }
 
     public function update(Request $request, Productos $productos)

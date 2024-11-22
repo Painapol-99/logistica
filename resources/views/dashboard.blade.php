@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,12 +26,11 @@
                 <li><a href="{{ url('/productos') }}">Productos</a></li>
                 <li><a href="{{ url('/repartidor') }}">Repartos</a></li>
                 <li><a href="{{ url('/contact') }}">Contacto</a></li>
+                
             </ul>
         </nav>
     </header>
     
-    
-
     <main>
         <section class="hero">
             <h1>Bienvenido a LogFood</h1>
@@ -39,7 +38,7 @@
             <p>Optimiza tus repartos con nuestra aplicación.</p>
             <div>
                 <a href="{{ url('/productos') }}" class="btn">Ver Productos</a>
-                <a href="{{ url('/repartidor') }}" class="btn">Ver Repartos</a>
+                <a href="{{ url('/compras') }}" class="btn">Comprar</a>
             </div>
         </section>
 
@@ -68,7 +67,7 @@
     <script src="js/script.js"></script>
 </body>
 </html>
-=======
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -87,4 +86,3 @@
     </div>
 </x-app-layout>
 
->>>>>>> 58f6ab5b64353c207df18a44d5a76e2cb544cc5a

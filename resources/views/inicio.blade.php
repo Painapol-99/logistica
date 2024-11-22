@@ -23,11 +23,8 @@
                 <li><a href="{{ url('/productos') }}">Productos</a></li>
                 <li><a href="{{ url('/repartidor') }}">Repartos</a></li>
                 <li><a href="{{ url('/login') }}">login</a></li>
-<<<<<<< HEAD
-                <li><a href="{{ url('/compras') }}">comprar</a></li>
-=======
-                <li>Holaaa</li>
->>>>>>> 58f6ab5b64353c207df18a44d5a76e2cb544cc5a
+                
+
             </ul>
         </nav>
     </header>
@@ -65,8 +62,8 @@
         <section class="productos">
             <h1>Productos</h1>
             <ul>
-                @foreach($productos as $producto)
-                    <li>{{ $producto->nombre }} - ${{ $producto->precio }}</li>
+                @foreach($productos as $productos)
+                    <li>{{ $productos->nombre }} - ${{ $productos->precio }}</li>
                 @endforeach
             </ul>
         </section>
