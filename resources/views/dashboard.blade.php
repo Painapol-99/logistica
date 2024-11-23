@@ -21,6 +21,10 @@
         <li><a href="{{ url('/productos') }}">Productos</a></li>
         <li><a href="{{ url('/repartidor') }}">Repartos</a></li>
         <li><a href="{{ url('/contact') }}">Contacto</a></li>
+        @auth
+          <li><a href="{{ route('profile.edit') }}">Usuario</a></li>
+          <li><a href="{{ route('carrito.mostrar') }}">Carrito</a></li>
+        @endauth
       </ul>
     </nav>
   </header>

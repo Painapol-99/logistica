@@ -22,7 +22,6 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 
-
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
     ->middleware('guest')
     ->name('login');
@@ -44,7 +43,6 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 Route::get('/', [InicioController::class, 'index'])->name('inicio');
 
 require __DIR__.'/auth.php';
-
 
 Route::get('/compras', [CompraController::class, 'index'])->name('compras.index');
 Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
