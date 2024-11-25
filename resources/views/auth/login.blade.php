@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,94 +16,119 @@
             font-family: "Teko", sans-serif;
         }
 
-        .bodyLogin {
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(180deg, #FF7E5F, #FEB47B); /* Degradado atardecer */
+            background: linear-gradient(135deg, #FF6A95, #FF7F50); /* Degradado de rosa y coral */
             background-size: cover;
             background-position: center;
+            color: #fff;
+            overflow: hidden;
         }
 
         /*------------------------------------- FORMULARIO  ------------------------------------- */
         .caja {
             width: 420px;
-            background: transparent;
+            background: rgba(0, 0, 0, 0.7); /* Fondo oscuro para contrastar */
             color: #fff;
-            border-radius: 2rem;
+            border-radius: 1.5rem;
             padding: 3rem 4rem;
-            border: 2px solid #155724;
-            box-shadow: 0 0 10px #155724;
-            backdrop-filter: blur(20px);
+            border: 2px solid #FF6347; /* Rojo tomate */
+            box-shadow: 0 0 20px rgba(255, 99, 71, 0.7);
+            backdrop-filter: blur(10px);
+            position: relative;
         }
 
         .caja h1 {
             font-size: 36px;
             text-align: center;
-            letter-spacing: 1rem;
+            letter-spacing: 1.2rem;
+            margin-bottom: 20px;
+            color: #FFD700; /* Dorado */
         }
 
-        .caja .input-box {
+        .input-box {
             position: relative;
             width: 100%;
-            height: 50px;
-            margin: 30px 0;
+            margin-bottom: 20px;
         }
 
         .input-box input {
             width: 100%;
-            height: 100%;
+            height: 50px;
             background: transparent;
-            border: none;
-            outline: none;
-            box-shadow: 0 0 10px #155724;
-            border-radius: 40px;
-            font-size: 16px;
+            border: 2px solid #FFD700; /* Dorado */
             color: #fff;
-            padding: 20px 45px 20px 20px;
+            font-size: 16px;
+            border-radius: 40px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .input-box input:focus {
+            outline: none;
+            border-color: #FF6347; /* Rojo tomate */
+            box-shadow: 0 0 10px rgba(255, 99, 71, 0.5);
         }
 
         .input-box input::placeholder {
             color: #fff;
         }
 
-        .caja .btn {
+        .btn {
             width: 100%;
-            background: #fff;
+            background: #FF6347; /* Rojo tomate */
             border: none;
             outline: none;
             border-radius: 40px;
             cursor: pointer;
             font-size: 16px;
-            color: #333;
+            color: #fff;
             font-weight: 600;
-            padding: 0.5rem;
-            letter-spacing: 5px;
-            transition: all 0.6s ease;
-            margin-bottom: 1rem;
+            padding: 0.7rem;
+            letter-spacing: 3px;
+            transition: all 0.4s ease;
+            margin-top: 10px;
         }
 
         .btn:hover {
-            background-color: #000000;
-            box-shadow: 0 0 10px #155724;
-            color: #155724;
-            border-color: #155724;
+            background-color: #FF4500; /* Naranja rojizo */
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.5);
+            color: #fff;
         }
 
-        .caja .register-link {
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .remember-forgot a {
+            color: #FFD700; /* Dorado */
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .remember-forgot a:hover {
+            text-decoration: underline;
+        }
+
+        .register-link {
             font-size: 14.5px;
             text-align: center;
-            margin-top: 20px 0 15px;
+            margin-top: 20px;
         }
 
-        .register-link p a {
-            color: #fff;
+        .register-link a {
+            color: #FFD700; /* Dorado */
             text-decoration: none;
             font-weight: 600;
         }
 
-        .register-link p a:hover {
+        .register-link a:hover {
             text-decoration: underline;
         }
 
@@ -134,7 +159,7 @@
         }
     </style>
 </head>
-<body class="bodyLogin">
+<body>
     <div id="space"></div>
     <div>
         <div class="caja">
@@ -163,6 +188,7 @@
             </div>
         </div>
     </div>
+
     <script>
         const space = document.getElementById('space');
         const numStars = 1200;
