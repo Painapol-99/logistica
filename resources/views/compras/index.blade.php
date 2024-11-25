@@ -1,5 +1,11 @@
+<?php
+// Iniciar la sesión
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -116,13 +122,12 @@
             border: 1px solid #c3e6cb;
             border-radius: 5px;
         }
-
     </style>
 </head>
-<body>
 
+<body>
     <header>
-        <img class="logo" src="logoCamion.png" alt="Logfood Logo" width="280"/>
+        <img class="logo" src="logoCamion.png" alt="Logfood Logo" width="280" />
         <p>Logfood</p>
         <nav style="position: absolute; top: 20px; right: 20px;">
             <ul style="display: flex; gap: 15px;">
@@ -133,11 +138,15 @@
                 <li>
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:text-gray-200 focus:outline-none transition ease-in-out duration-150">
+                            <button
+                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:text-gray-200 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ Auth::user()->name }}</div>
                                 <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z" clip-rule="evenodd" />
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                                            clip-rule="evenodd" />
                                     </svg>
                                 </div>
                             </button>
@@ -147,12 +156,14 @@
                                 {{ __('Profile') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
-                            <button onclick="location.href='{{ route('profile.edit') }}'" class="btn btn-primary mt-2">Profile</button>
-                            <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-danger mt-2">Logout</button>
+                            <button onclick="location.href='{{ route('profile.edit') }}'"
+                                class="btn btn-primary mt-2">Profile</button>
+                            <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                class="btn btn-danger mt-2">Logout</button>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
@@ -161,7 +172,7 @@
                 </li>
             </ul>
         </nav>
-        
+
     </header>
 
     <div class="container">
@@ -170,16 +181,21 @@
         <div id="mensaje" class="alert"></div>
 
         <div class="productos">
-            @foreach($productos as $producto)
-            <div class="producto-card">
-                <img src="img/productos/{{ $producto->imagen }}" alt="{{ $producto->nombre }}">
-                <h5>{{ $producto->nombre }}</h5>
-                <p>{{ $producto->descripcion }}</p>
-                <p class="precio">{{ $producto->precio }}€</p>
-                <button class="btn btn-primary agregar-carrito" data-id="{{ $producto->id }}">
-                    Agregar al Carrito
-                </button>
-            </div>
+            @foreach ($productos as $producto)
+                <div class="producto-card">
+                    <img src="img/productos/{{ $producto->imagen }}" alt="{{ $producto->nombre }}">
+                    <h5>{{ $producto->nombre }}</h5>
+                    <p>{{ $producto->descripcion }}</p>
+                    <p class="precio">{{ $producto->precio }}€</p>
+
+                    <form action="agregar.php" method="POST">
+                        <input type="hidden" name="nombre" value="{{$producto->nombre}}">
+                        <input type="hidden" name="precio" value="{{ $producto->precio }}">
+                        <button type="submit" class="btn btn-primary agregar-carrito">
+                            Agregar al Carrito
+                        </button>
+                    </form>
+                </div>
             @endforeach
         </div>
 
@@ -187,27 +203,29 @@
 
     <script>
         document.querySelectorAll('.agregar-carrito').forEach(boton => {
-            boton.addEventListener('click', function () {
+            boton.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
-                fetch('{{ route("carrito.agregar") }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({ id })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('mensaje').innerText = data.mensaje;
-                    document.getElementById('mensaje').style.display = 'block';
-                    setTimeout(() => document.getElementById('mensaje').style.display = 'none', 3000);
-                });
+                fetch('{{ route('carrito.agregar') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            id
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('mensaje').innerText = data.mensaje;
+                        document.getElementById('mensaje').style.display = 'block';
+                        setTimeout(() => document.getElementById('mensaje').style.display = 'none',
+                            3000);
+                    });
             });
         });
     </script>
 
 </body>
+
 </html>
-
-
