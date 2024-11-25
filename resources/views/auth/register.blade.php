@@ -1,52 +1,188 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        /* General */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Teko", sans-serif;
+        }
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #F27059, #FFD194); /* Fondo atardecer */
+            color: #ffffff;
+        }
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        #space {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        .star {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: moveStar linear infinite;
+        }
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+        @keyframes moveStar {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+        /* Caja */
+        .caja {
+            position: relative;
+            z-index: 2;
+            width: 400px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+        .caja h1 {
+            font-size: 2rem;
+            text-align: center;
+            color: #FFDDC1;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1rem;
+        }
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+        .input-box {
+            position: relative;
+            width: 100%;
+            margin: 1rem 0;
+        }
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+        .input-box input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+        .input-box input::placeholder {
+            color: #CCCCCC;
+        }
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+        .input-box input:focus {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .link-login {
+            display: block;
+            margin-top: 1rem;
+            text-align: center;
+            color: #FFD194;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .link-login:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            background: #FFDDC1;
+            color: #333333;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            letter-spacing: 0.05rem;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background: #FFD194;
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <div id="space"></div> <!-- Fondo estrellado -->
+    <div class="caja">
+        <h1>Registro</h1>
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
+            <!-- Nombre -->
+            <div class="input-box">
+                <input id="name" type="text" name="name" placeholder="Nombre Completo" value="{{ old('name') }}" required autofocus>
+            </div>
+
+            <!-- Email -->
+            <div class="input-box">
+                <input id="email" type="email" name="email" placeholder="Correo Electrónico" value="{{ old('email') }}" required>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="input-box">
+                <input id="password" type="password" name="password" placeholder="Contraseña" required>
+            </div>
+
+            <!-- Confirmar Contraseña -->
+            <div class="input-box">
+                <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Confirmar Contraseña" required>
+            </div>
+
+            <!-- Botón -->
+            <button type="submit" class="btn">Registrar</button>
+        </form>
+
+        <!-- Enlace para iniciar sesión -->
+        <a href="{{ route('login') }}" class="link-login">¿Ya tienes cuenta? Inicia Sesión</a>
+    </div>
+
+    <script>
+        const space = document.getElementById('space');
+        const numStars = 1000;
+
+        for (let i = 0; i < numStars; i++) {
+            let star = document.createElement('div');
+            star.classList.add('star');
+
+            // Tamaño y posición de estrella aleatorios
+            let size = Math.random() * 3;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.left = Math.random() * 100 + 'vw';
+
+            // Duración de animación
+            let duration = Math.random() * 5 + 3;
+            star.style.animationDuration = duration + 's';
+
+            space.appendChild(star);
+        }
+    </script>
+</body>
+</html>
