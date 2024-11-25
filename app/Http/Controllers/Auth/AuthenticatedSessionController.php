@@ -33,6 +33,11 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
+    protected function authenticated(Request $request, $user)
+    {
+        return redirect()->intended('dashboard');
+    }
+
     public function destroy(Request $request)
     {
         Auth::guard('web')->logout();

@@ -47,4 +47,9 @@ class RegisteredUserController extends Controller
 
         return redirect(route('dashboard', absolute: false));
     }
+
+    protected function registered(Request $request, $user)
+    {
+        return redirect('dashboard');
+    }
 }

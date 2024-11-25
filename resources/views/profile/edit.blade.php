@@ -60,6 +60,15 @@
                 <button type="submit" class="btn" style="background: #FF6B6B;">Eliminar Cuenta</button>
             </form>
         </div>
+
+        <!-- Sección de deslogueo -->
+        <div class="profile-box">
+            <h1>Cerrar Sesión</h1>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="btn" style="background: #FF6B6B;">Cerrar Sesión</button>
+            </form>
+        </div>
     </div>
 
     <script>
