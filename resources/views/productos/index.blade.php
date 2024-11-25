@@ -191,10 +191,7 @@
                                 <p class="card-text" style="font-size: 1rem; color: #555;">{{ $producto->descripcion }}</p>
                                 <p class="card-text price" style="font-size: 1.2rem; color: #333; font-weight: bold;">Precio: {{ $producto->precio }}€</p>
                                 
-                                <!-- Botón para agregar al carrito -->
-                                <button class="btn btn-outline-primary agregar-carrito" data-id="{{ $producto->id }}" style="transition: background-color 0.3s, transform 0.2s;">
-                                    Agregar al Carrito
-                                </button>
+                                
                             </div>
                         </div>
                     </div>

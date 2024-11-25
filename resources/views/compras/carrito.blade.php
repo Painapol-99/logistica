@@ -15,37 +15,27 @@
         </form>
     </x-slot>
 <div class="container">
-    <h1>Carrito de Compras</h1>
-    @if(empty($carrito))
-        <p>No hay productos en el carrito.</p>
-    @else
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio Unitario</th>
-                <th>Subtotal</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php $total = 0; @endphp
-            @foreach($carrito as $id => $productos)
-            <tr>
-                <td>{{ $productos['nombre'] }}</td>
-                <td>{{ $productos['cantidad'] }}</td>
-                <td>${{ $productos['precio'] }}</td>
-                <td>${{ $productos['cantidad'] * $productos['precio'] }}</td>
-            </tr>
-            @php $total += $productos['cantidad'] * $productos['precio']; @endphp
-            @endforeach
-        </tbody>
-    </table>
-    <h3>Total: ${{ $total }}</h3>
-    <form action="{{ route('comprar') }}" method="POST">
-        @csrf
-        <button type="submit" class="btn btn-success">Procesar Compra</button>
-    </form>
-    @endif
+<?php
+    session_start();
+
+    // Obtener los productos del carrito
+    $carrito = isset($_SESSION['carrito']) ? $_SESSION['carrito'] : [];
+?>
+     <h1>Tu Carrito</h1>
+    <?php if (!empty($carrito)): ?>
+        <ul>
+            <?php foreach ($carrito as $producto): ?>
+                <li>
+                    <?php echo htmlspecialchars($producto['nombre']); ?> - $<?php echo htmlspecialchars($producto['precio']); ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <form action="vaciar.php" method="POST">
+            <button type="submit">Vaciar Carrito</button>
+        </form>
+    <?php else: ?>
+        <p>El carrito está vacío.</p>
+    <?php endif; ?>
+    <a href="/dashboard">Volver a la tienda</a>
 </div>
 </x-app-layout>
