@@ -1,5 +1,4 @@
-
-    <x-slot name="header">
+<x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Profile') }}
         </h2>
@@ -15,6 +14,7 @@
             <h1>Actualizar Información</h1>
             <form method="POST" action="{{ route('profile.update') }}">
                 @csrf
+                @method('PATCH') <!-- Asegúrate de usar PATCH aquí -->
                 <!-- Nombre -->
                 <div class="input-box">
                     <input id="name" type="text" name="name" value="{{ old('name', Auth::user()->name) }}" placeholder="Nombre" required autofocus>
@@ -34,6 +34,7 @@
             <h1>Cambiar Contraseña</h1>
             <form method="POST" action="{{ route('password.update') }}">
                 @csrf
+                @method('PUT') <!-- Asegúrate de usar PUT aquí -->
                 <div class="input-box">
                     <input id="current_password" type="password" name="current_password" placeholder="Contraseña Actual" required>
                 </div>
@@ -55,7 +56,7 @@
             <h1>Eliminar Cuenta</h1>
             <form method="POST" action="{{ route('profile.destroy') }}">
                 @csrf
-                @method('DELETE')
+                @method('DELETE') <!-- Asegúrate de usar DELETE aquí -->
                 <button type="submit" class="btn" style="background: #FF6B6B;">Eliminar Cuenta</button>
             </form>
         </div>

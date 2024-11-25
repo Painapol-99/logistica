@@ -210,11 +210,16 @@
               <li><a href="{{ url('/') }}">Inicio</a></li>
               <li><a href="{{ url('/about') }}">Sobre Nosotros</a></li>
               <li><a href="{{ url('/productos') }}">Productos</a></li>
-
               <li><a href="{{ url('/contact') }}">Contacto</a></li>
               @auth
                 <li><a href="{{ route('profile.edit') }}">Usuario</a></li>
                 <li><a href="{{ route('carrito.mostrar') }}">Carrito</a></li>
+                <li>
+                    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                        @csrf
+                        <button type="submit" style="background: none; border: none; color: var(--color-texto-principal); font-weight: bold; font-size: 1.2rem; cursor: pointer; padding: 0; margin: 0;">Cerrar Sesión</button>
+                    </form>
+                </li>
               @endauth
             </ul>
         </nav>
