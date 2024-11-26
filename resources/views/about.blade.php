@@ -158,7 +158,7 @@
                 <li><a href="{{ url('/') }}">Inicio</a></li>
                 <li><a href="{{ url('/about') }}">Sobre Nosotros</a></li>
                 <li><a href="{{ url('/productos') }}">Productos</a></li>
-                <li><a href="{{ url('/contact') }}">Contacto</a></li>
+
                 @auth
                 <li><a href="{{ route('profile.edit') }}">Usuario</a></li>
                 <li><a href="{{ route('carrito.mostrar') }}">Carrito</a></li>
