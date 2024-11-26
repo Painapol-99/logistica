@@ -133,7 +133,7 @@
         }
 
         .btn {
-            background-color: #007bff;
+            background-color: #28a745; /* Changed to a professional green color */
             color: #fff;
             font-weight: bold;
             padding: 10px 20px;
@@ -143,7 +143,7 @@
         }
 
         .btn:hover {
-            background-color: #0056b3;
+            background-color: #218838; /* Darker shade of green for hover effect */
         }
 
         footer {
@@ -154,6 +154,44 @@
             color: var(--color-secundario);
             background-color: var(--color-dark);
             box-shadow: 0 -4px 10px var(--color-shadow);
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 20px 0 0 20px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .search-bar button {
+            width: 20%;
+            padding: 10px;
+            border-radius: 0 20px 20px 0;
+            border: none;
+            background-color: #28a745;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -182,12 +220,21 @@
         </nav>
     </header>
 
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Buscar productos...">
+        <button onclick="searchProducts()">Buscar</button>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
     <!-- Contenido Principal -->
     <div class="container mt-4" id="productos">
         <h1>Productos Disponibles</h1>
-        <div class="row">
+        <div class="row" id="product-list">
             @foreach($productos as $producto)
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4 mb-4 product-item">
                 <div class="card">
                     <img src="{{ $producto->imagen }}" class="card-img-top" alt="{{ $producto->nombre }}">
                     <div class="card-body">
@@ -207,6 +254,18 @@
         </div>
     </div>
     <script>
+        function searchProducts() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            document.querySelectorAll('.product-item').forEach(item => {
+                const productName = item.querySelector('.card-title').innerText.toLowerCase();
+                if (productName.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
         document.querySelectorAll('.agregar-carrito').forEach(boton => {
             boton.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
@@ -222,10 +281,10 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById('mensaje').innerText = data.mensaje;
-                        document.getElementById('mensaje').style.display = 'block';
-                        setTimeout(() => document.getElementById('mensaje').style.display = 'none',
-                            3000);
+                        const notification = document.getElementById('notification');
+                        notification.innerText = data.mensaje;
+                        notification.style.display = 'block';
+                        setTimeout(() => notification.style.display = 'none', 3000);
                     });
             });
         });
