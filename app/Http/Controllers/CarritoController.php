@@ -9,20 +9,16 @@ class CarritoController extends Controller
 {
     public function agregar(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string',
-            'precio' => 'required|numeric',
-        ]);
-
-        $carrito = session()->get('carrito', []);
-        $carrito[] = [
-            'nombre' => $request->nombre,
-            'precio' => $request->precio,
+        $producto = [
+            'nombre' => $request->input('nombre'),
+            'precio' => $request->input('precio')
         ];
 
+        $carrito = session()->get('carrito', []);
+        $carrito[] = $producto;
         session()->put('carrito', $carrito);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('carrito.mostrar');
     }
 
     public function mostrar()

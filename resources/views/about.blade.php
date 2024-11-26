@@ -30,7 +30,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: space-between; /* Empuja el footer al final */
             align-items: center;
             font-size: 16px;
             overflow-x: hidden;
@@ -79,6 +79,17 @@
             color: var(--color-hover);
         }
 
+        .logout-button {
+            background: none;
+            border: none;
+            color: var(--color-texto-principal);
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+
         .container {
             text-align: center;
             padding: 3rem;
@@ -109,7 +120,6 @@
         footer {
             width: 100%;
             text-align: center;
-            margin-top: 3rem;
             padding: 1rem;
             color: var(--color-secundario);
             background-color: var(--color-dark);
@@ -148,8 +158,9 @@
 </head>
 
 <body>
-    <div id="space"></div>
+    <div id="space" aria-hidden="true"></div>
 
+    <!-- Header -->
     <header>
         <img class="logo" src="{{ asset('logocamion.png') }}" alt="LogFood Logo">
         <p>LogFood</p>
@@ -165,7 +176,7 @@
                 <li>
                     <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf
-                        <button type="submit" style="background: none; border: none; color: var(--color-texto-principal); font-weight: bold; font-size: 1.2rem; cursor: pointer; padding: 0; margin: 0;">Cerrar Sesión</button>
+                        <button type="submit" class="logout-button">Cerrar Sesión</button>
                     </form>
                 </li>
                 @endauth
@@ -173,6 +184,7 @@
         </nav>
     </header>
 
+    <!-- Main Content -->
     <main>
         <section class="container">
             <h1>Sobre Nosotros</h1>
@@ -182,26 +194,33 @@
         </section>
     </main>
 
+    <!-- Footer -->
     <footer>
         <p>&copy; {{ date('Y') }} LogFood. Todos los derechos reservados.</p>
     </footer>
 
+    <!-- Script -->
     <script>
-        const space = document.getElementById('space');
-        const numStars = 1200;
+        document.addEventListener('DOMContentLoaded', () => {
+            const space = document.getElementById('space');
+            const numStars = 300;
+            const fragment = document.createDocumentFragment();
 
-        for (let i = 0; i < numStars; i++) {
-            let star = document.createElement('div');
-            star.classList.add('star');
-            let size = Math.random() * 4.5;
-            star.style.width = size + 'px';
-            star.style.height = size + 'px';
-            star.style.top = Math.random() * 100 + 'vh';
-            star.style.left = Math.random() * 100 + 'vw';
-            let duration = Math.random() * 5 + 5;
-            star.style.animationDuration = duration + 's';
-            space.appendChild(star);
-        }
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                const size = Math.random() * 3;
+                Object.assign(star.style, {
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    top: `${Math.random() * 100}vh`,
+                    left: `${Math.random() * 100}vw`,
+                    animationDuration: `${Math.random() * 7 + 3}s`,
+                });
+                fragment.appendChild(star);
+            }
+            space.appendChild(fragment);
+        });
     </script>
 </body>
 

@@ -6,12 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Agregar producto al carrito
     botonesAgregar.forEach(boton => {
         boton.addEventListener("click", () => {
-            const producto = boton.closest(".card-body");
-            const nombre = producto.querySelector(".card-title").textContent;
-            const precio = producto.querySelector(".price").textContent.split(' ')[1].slice(0, -1);
-
-            carrito.push({ nombre, precio });
-            renderCarrito();
+            const formulario = boton.nextElementSibling;
+            formulario.submit();
         });
     });
 

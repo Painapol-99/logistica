@@ -1,288 +1,238 @@
-<x-app-layout>
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Productos Disponibles</title>
-        <style>
-            /*------------------------------------- GENERAL  ------------------------------------- */
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: "Teko", sans-serif;
-            }
+<!DOCTYPE html>
+<html lang="es">
 
-            .bodyLogin {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                min-height: 100vh;
-                background: linear-gradient(180deg, #FF7E5F, #FEB47B); /* Degradado atardecer */
-                background-size: cover;
-                background-position: center;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos Disponibles - LogFood</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Sofadi+One&family=Teko:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        :root {
+            --color-fondo-1: #FF6F61;
+            --color-fondo-2: #FFD194;
+            --color-texto-principal: #FFF5EE;
+            --color-secundario: #FFDDC1;
+            --color-hover: #FFD194;
+            --color-dark: rgba(0, 0, 0, 0.7);
+            --color-shadow: rgba(0, 0, 0, 0.5);
+        }
 
-            /*------------------------------------- FORMULARIO  ------------------------------------- */
-            .caja {
-                width: 420px;
-                background: transparent;
-                color: #fff;
-                border-radius: 2rem;
-                padding: 3rem 4rem;
-                border: 2px solid #155724;
-                box-shadow: 0 0 10px #155724;
-                backdrop-filter: blur(20px);
-            }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Teko", sans-serif;
+        }
 
-            .caja h1 {
-                font-size: 36px;
-                text-align: center;
-                letter-spacing: 1rem;
-            }
+        body {
+            background: linear-gradient(180deg, var(--color-fondo-1), var(--color-fondo-2));
+            color: var(--color-texto-principal);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
 
-            .caja .input-box {
-                position: relative;
-                width: 100%;
-                height: 50px;
-                margin: 30px 0;
-            }
+        header {
+            width: 100%;
+            background-color: var(--color-dark);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 4px 10px var(--color-shadow);
+        }
 
-            .input-box input {
-                width: 100%;
-                height: 100%;
-                background: transparent;
-                border: none;
-                outline: none;
-                box-shadow: 0 0 10px #155724;
-                border-radius: 40px;
-                font-size: 16px;
-                color: #fff;
-                padding: 20px 45px 20px 20px;
-            }
+        header .logo {
+            width: 200px;
+            margin-bottom: 0.5rem;
+        }
 
-            .input-box input::placeholder {
-                color: #fff;
-            }
+        header p {
+            font-size: 2rem;
+            color: var(--color-texto-principal);
+            font-family: 'Amatic SC', sans-serif;
+        }
 
-            .caja .btn {
-                width: 100%;
-                background: #fff;
-                border: none;
-                outline: none;
-                border-radius: 40px;
-                cursor: pointer;
-                font-size: 16px;
-                color: #333;
-                font-weight: 600;
-                padding: 0.5rem;
-                letter-spacing: 5px;
-                transition: all 0.6s ease;
-                margin-bottom: 1rem;
-            }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
 
-            .btn:hover {
-                background-color: #000000;
-                box-shadow: 0 0 10px #155724;
-                color: #155724;
-                border-color: #155724;
-            }
+        nav ul li {
+            margin: 0 1.5rem;
+        }
 
-            .caja .register-link {
-                font-size: 14.5px;
-                text-align: center;
-                margin-top: 20px 0 15px;
-            }
+        nav ul li a {
+            color: var(--color-texto-principal);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
 
-            .register-link p a {
-                color: #fff;
-                text-decoration: none;
-                font-weight: 600;
-            }
+        nav ul li a:hover {
+            color: var(--color-hover);
+        }
 
-            .register-link p a:hover {
-                text-decoration: underline;
-            }
+        h1 {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            text-align: center;
+            color: var(--color-secundario);
+        }
 
-            /*------------------------------------- FONDO ESTRELLADO  ------------------------------------- */
-            #space {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-            }
+        .row {
+            margin-top: 20px;
+        }
 
-            .star {
-                position: absolute;
-                background-color: rgba(255, 255, 255, 0.8);
-                border-radius: 50%;
-                animation: moveStar linear infinite;
-            }
+        .card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
 
-            @keyframes moveStar {
-                0% {
-                    transform: translateY(0);
-                    opacity: 1;
-                }
-                100% {
-                    transform: translateY(100vh);
-                    opacity: 0;
-                }
-            }
+        .card:hover {
+            transform: scale(1.05);
+        }
 
-            /*------------------------------------- PRODUCTOS ------------------------------------- */
-            body {
-                font-family: "Roboto", sans-serif;
-                margin: 0;
-                padding: 0;
-                background-color: #f0f0f0;
-                color: #333;
-                display: flex;
-                flex-direction: column;
-                min-height: 100vh;
-                align-items: center;
-                justify-content: flex-start;
-            }
+        .card-img-top {
+            object-fit: cover;
+            height: 200px;
+        }
 
-            h1 {
-                font-size: 3rem;
-                color: #333;
-                text-align: center;
-                margin-top: 20px;
-            }
+        .card-body {
+            padding: 15px;
+            text-align: center;
+        }
 
-            .container-fluid {
-                width: 90%;
-                max-width: 1400px;
-                margin: 0 auto;
-                padding-top: 20px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-            #mensaje {
-                display: none;
-                position: fixed;
-                top: 10%;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 90%;
-                max-width: 400px;
-                padding: 1rem;
-                background-color: #28a745;
-                color: #fff;
-                border-radius: 5px;
-                text-align: center;
-                font-weight: bold;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            }
+        .card-text {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
 
-            .row {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 15px;
-                justify-content: flex-start;
-                padding: 0 20px;
-            }
+        .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--color-fondo-1);
+        }
 
-            .card {
-                border: none;
-                border-radius: 15px;
-                overflow: hidden;
-                background-color: #fff;
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-                width: 100%;
-                max-width: 350px;
-                transition: transform 0.3s ease-in-out;
-            }
+        .btn {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            transition: background-color 0.3s;
+        }
 
-            .card-img-top {
-                object-fit: cover;
-                height: 200px;
-                width: 100%;
-            }
+        .btn:hover {
+            background-color: #0056b3;
+        }
 
-            .card-body {
-                background-color: #f9f9f9;
-                padding: 1.5rem;
-                text-align: center;
-            }
+        footer {
+            width: 100%;
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1rem;
+            color: var(--color-secundario);
+            background-color: var(--color-dark);
+            box-shadow: 0 -4px 10px var(--color-shadow);
+        }
+    </style>
+</head>
 
-            .card-title {
-                font-size: 1.3rem;
-                font-weight: bold;
-                color: #333;
-            }
+<body>
+    <!-- Nuevo Header -->
+    <header>
+        <img class="logo" src="{{ asset('logocamion.png') }}" alt="LogFood Logo">
+        <p>LogFood</p>
+        <nav>
+            <ul>
+                <li><a href="{{ url('/') }}">Inicio</a></li>
+                <li><a href="{{ url('/about') }}">Sobre Nosotros</a></li>
+                <li><a href="{{ url('/productos') }}">Productos</a></li>
+                @auth
+                <li><a href="{{ route('profile.edit') }}">Usuario</a></li>
+                <li><a href="{{ route('carrito.mostrar') }}">Carrito</a></li>
+                <li>
+                    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                        @csrf
+                        <button type="submit" style="background: none; border: none; color: var(--color-texto-principal); font-weight: bold; font-size: 1.2rem; cursor: pointer; padding: 0; margin: 0;">Cerrar Sesión</button>
+                    </form>
+                </li>
+                @endauth
+            </ul>
+        </nav>
+    </header>
 
-            .card-text {
-                font-size: 1rem;
-                color: #555;
-            }
-
-            .price {
-                font-size: 1.2rem;
-                font-weight: bold;
-                color: #333;
-            }
-
-            .agregar-carrito {
-                background-color: #007bff;
-                color: #fff;
-                padding: 0.7rem 1.5rem;
-                border: none;
-                border-radius: 25px;
-                cursor: pointer;
-                transition: background-color 0.3s, transform 0.2s;
-            }
-
-            .agregar-carrito:hover {
-                background-color: #2575fc;
-                transform: scale(1.1);
-            }
-
-            .card:hover {
-                transform: scale(1.05);
-            }
-        </style>
-    </head>
-    <body class="bodyLogin">
-        <div id="space">
-            <!-- Fondo estrellado -->
-            <div class="star" style="top: 10%; left: 30%; width: 5px; height: 5px;"></div>
-            <div class="star" style="top: 20%; left: 50%; width: 7px; height: 7px;"></div>
-            <div class="star" style="top: 40%; left: 80%; width: 4px; height: 4px;"></div>
-            <div class="star" style="top: 70%; left: 60%; width: 6px; height: 6px;"></div>
-            <div class="star" style="top: 90%; left: 20%; width: 3px; height: 3px;"></div>
-            <div class="star" style="top: 60%; left: 10%; width: 4px; height: 4px;"></div>
-            <!-- Puedes añadir más estrellas aquí -->
-        </div>
-
-        <div class="container-fluid">
-            <h1>Productos Disponibles</h1>
-            <div id="mensaje"></div>
-
-            <div class="row">
-                @foreach($productos as $producto)
-                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                        <div class="card">
-                            <img src="{{ $producto->imagen }}" class="card-img-top" alt="{{ $producto->nombre }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $producto->nombre }}</h5>
-                                <p class="card-text">{{ $producto->descripcion }}</p>
-                                <p class="price">Precio: {{ $producto->precio }}€</p>
-                                <button class="agregar-carrito" data-id="{{ $producto->id }}" data-nombre="{{ $producto->nombre }}" data-precio="{{ $producto->precio }}">Añadir al carrito</button>
-                            </div>
-                        </div>
+    <!-- Contenido Principal -->
+    <div class="container mt-4" id="productos">
+        <h1>Productos Disponibles</h1>
+        <div class="row">
+            @foreach($productos as $producto)
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ $producto->imagen }}" class="card-img-top" alt="{{ $producto->nombre }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $producto->nombre }}</h5>
+                        <p class="card-text">{{ $producto->descripcion }}</p>
+                        <p class="price">{{ $producto->precio }}€</p>
+                        <button class="btn agregar-carrito" data-id="{{ $producto->id }}">Agregar al Carrito</button>
+                        <form action="{{ route('carrito.agregar') }}" method="POST" class="d-none">
+                            @csrf
+                            <input type="hidden" name="nombre" value="{{ $producto->nombre }}">
+                            <input type="hidden" name="precio" value="{{ $producto->precio }}">
+                        </form>
                     </div>
-                @endforeach
+                </div>
             </div>
-            <h2>Carrito</h2>
-            <ul id="lista-carrito"></ul>
+            @endforeach
         </div>
-        <script src="{{ asset('js/carrito.js') }}"></script>
-    </body>
-    </html>
-</x-app-layout>
+    </div>
+    <script>
+        document.querySelectorAll('.agregar-carrito').forEach(boton => {
+            boton.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                fetch('{{ route('carrito.agregar') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            id
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('mensaje').innerText = data.mensaje;
+                        document.getElementById('mensaje').style.display = 'block';
+                        setTimeout(() => document.getElementById('mensaje').style.display = 'none',
+                            3000);
+                    });
+            });
+        });
+    </script>
+    <footer>
+        <p>&copy; {{ date('Y') }} LogFood. Todos los derechos reservados.</p>
+    </footer>
+</body>
+
+</html>
