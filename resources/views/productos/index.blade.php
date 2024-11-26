@@ -35,6 +35,28 @@
             align-items: center;
             font-size: 16px;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        .animated-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/diagonal-stripes.png');
+            opacity: 0.1;
+            animation: moveBackground 10s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes moveBackground {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 100% 100%;
+            }
         }
 
         header {
@@ -133,7 +155,7 @@
         }
 
         .btn {
-            background-color: #007bff;
+            background-color: #28a745; /* Changed to a professional green color */
             color: #fff;
             font-weight: bold;
             padding: 10px 20px;
@@ -143,6 +165,24 @@
         }
 
         .btn:hover {
+            background-color: #218838; /* Darker shade of green for hover effect */
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
             background-color: #0056b3;
         }
 
@@ -155,10 +195,71 @@
             background-color: var(--color-dark);
             box-shadow: 0 -4px 10px var(--color-shadow);
         }
+
+        .search-bar {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 20px 0 0 20px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .search-bar button {
+            width: 20%;
+            padding: 10px;
+            border-radius: 0 20px 20px 0;
+            border: none;
+            background-color: #28a745;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .cart-item-price {
+            font-size: 1.2rem;
+            color: var(--color-fondo-1);
+        }
     </style>
 </head>
 
 <body>
+    <div class="animated-background"></div>
     <!-- Nuevo Header -->
     <header>
         <img class="logo" src="{{ asset('logocamion.png') }}" alt="LogFood Logo">
@@ -182,23 +283,31 @@
         </nav>
     </header>
 
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Buscar productos...">
+        <button onclick="searchProducts()">Buscar</button>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
     <!-- Contenido Principal -->
     <div class="container mt-4" id="productos">
         <h1>Productos Disponibles</h1>
-        <div class="row">
+        <div class="row" id="product-list">
             @foreach($productos as $producto)
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4 mb-4 product-item">
                 <div class="card">
                     <img src="{{ $producto->imagen }}" class="card-img-top" alt="{{ $producto->nombre }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ $producto->nombre }}</h5>
                         <p class="card-text">{{ $producto->descripcion }}</p>
                         <p class="price">{{ $producto->precio }}€</p>
-                        <button class="btn agregar-carrito" data-id="{{ $producto->id }}">Agregar al Carrito</button>
                         <form method="POST" action="{{ route('carrito.agregar') }}">
                             @csrf
-                            <input type="hidden" name="nombre" value="{{ $producto->nombre }}">
-                            <input type="hidden" name="precio" value="{{ $producto->precio }}">
+                            <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                            <button type="submit" class="btn btn-success">Agregar al Carrito</button>
                         </form>
                     </div>
                 </div>
@@ -206,27 +315,7 @@
             @endforeach
         </div>
     </div>
-    <script>
-        document.querySelectorAll('.agregar-carrito').forEach(boton => {
-            boton.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                fetch('{{ route('carrito.agregar') }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            id
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        window.location.href = '{{ route('carrito.mostrar') }}';
-                    });
-            });
-        });
-    </script>
+
     <footer>
         <p>&copy; {{ date('Y') }} LogFood. Todos los derechos reservados.</p>
     </footer>

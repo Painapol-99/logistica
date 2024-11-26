@@ -1,42 +1,50 @@
 <x-app-layout>
-    <x-slot name="content">
-        <x-dropdown-link :href="route('profile.edit')">
-            {{ __('Profile') }}
-        </x-dropdown-link>
-        <x-dropdown-link :href="route('logout')"
-                onclick="event.preventDefault();
-                            this.closest('form').submit();">
-            {{ __('Log Out') }}
-        </x-dropdown-link>
-        <button onclick="location.href='{{ route('profile.edit') }}'" class="btn btn-primary mt-2">Profile</button>
-        <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-danger mt-2">Logout</button>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-    </x-slot>
-<div class="container">
-<?php
-    session_start();
 
-    // Obtener los productos del carrito
-    $carrito = isset($_SESSION['carrito']) ? $_SESSION['carrito'] : [];
-?>
-     <h1>Tu Carrito</h1>
-    <?php if (!empty($carrito)): ?>
-        <ul>
-            <?php foreach ($carrito as $producto): ?>
-                <li>
-                    <?php echo htmlspecialchars($producto['nombre']); ?> - $<?php echo htmlspecialchars($producto['precio']); ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-        <form action="{{ route('carrito.vaciar') }}" method="POST">
-            @csrf
-            <button type="submit">Vaciar Carrito</button>
-        </form>
-    <?php else: ?>
-        <p>El carrito está vacío.</p>
-    <?php endif; ?>
-    <a href="/dashboard">Volver a la tienda</a>
+<div class="container mt-4">
+    <h1>Tu Carrito</h1>
+
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    @if($carrito->isEmpty())
+        <p>No tienes productos en el carrito.</p>
+    @else
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($carrito as $item)
+                    <tr>
+                        <td>{{ $item->producto->nombre }}</td>
+                        <td>
+                            <form action="{{ route('carrito.actualizar', $item->producto_id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <input type="number" name="cantidad" value="{{ $item->cantidad }}" min="1" class="form-control">
+                                <button type="submit" class="btn btn-sm btn-primary mt-1">Actualizar</button>
+                            </form>
+                        </td>
+                        <td>{{ $item->producto->precio }}€</td>
+                        <td>{{ $item->cantidad * $item->producto->precio }}€</td>
+                        <td>
+                            <form action="{{ route('carrito.eliminar', $item->producto_id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
 </div>
 </x-app-layout>

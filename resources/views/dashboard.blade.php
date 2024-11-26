@@ -8,8 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Sofadi+One&family=Teko:wght@300..700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-fondo-1: #FF6F61;
-            --color-fondo-2: #FFD194;
+            --color-fondo-1: #0000FF; /* Changed to blue */
+            --color-fondo-2: #ADD8E6; /* Changed to light blue */
             --color-texto-principal: #FFF5EE;
             --color-secundario: #FFDDC1;
             --color-hover: #FFD194;

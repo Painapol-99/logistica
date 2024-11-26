@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -9,13 +8,17 @@ class CreateProductosTable extends Migration
 {
     public function up()
     {
-        Schema::create('productos', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
-            $table->decimal('precio', 8, 2);
-            $table->foreignId('categoria_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('productos')) {
+            Schema::create('productos', function (Blueprint $table) {
+                $table->id();
+                $table->string('nombre');
+                $table->decimal('precio', 8, 2);
+                $table->unsignedBigInteger('categoria_id');
+                $table->timestamps();
+
+                $table->foreign('categoria_id')->references('id')->on('categorias')->onDelete('cascade');
+            });
+        }
     }
 
     public function down()

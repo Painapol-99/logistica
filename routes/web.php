@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\CartController;
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -43,11 +44,13 @@ Route::get('/', [InicioController::class, 'index'])->name('inicio');
 
 require __DIR__.'/auth.php';
 
-Route::get('/compras', [CompraController::class, 'index'])->name('compras.index');
-Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
-Route::post('/carrito/vaciar', [CarritoController::class, 'vaciar'])->name('carrito.vaciar');
-Route::get('/carrito', [CarritoController::class, 'mostrar'])->name('carrito.mostrar');
-Route::post('/comprar', [CompraController::class, 'procesarCompra'])->name('comprar');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/carrito', [CarritoController::class, 'mostrar'])->name('carrito.mostrar');
+    Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+    Route::patch('/carrito/{producto}', [CarritoController::class, 'actualizar'])->name('carrito.actualizar');
+    Route::delete('/carrito/{producto}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
+});
 
 Route::resource('categorias', CategoriaController::class)->except(['create', 'edit']);
 Route::resource('productos', ProductoController::class)->except(['create', 'edit']);
