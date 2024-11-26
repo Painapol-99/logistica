@@ -35,6 +35,28 @@
             align-items: center;
             font-size: 16px;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        .animated-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/diagonal-stripes.png');
+            opacity: 0.1;
+            animation: moveBackground 10s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes moveBackground {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 100% 100%;
+            }
         }
 
         header {
@@ -146,6 +168,24 @@
             background-color: #218838; /* Darker shade of green for hover effect */
         }
 
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
         footer {
             width: 100%;
             text-align: center;
@@ -193,10 +233,33 @@
             display: none;
             z-index: 1000;
         }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .cart-item-price {
+            font-size: 1.2rem;
+            color: var(--color-fondo-1);
+        }
     </style>
 </head>
 
 <body>
+    <div class="animated-background"></div>
     <!-- Nuevo Header -->
     <header>
         <img class="logo" src="{{ asset('logocamion.png') }}" alt="LogFood Logo">
@@ -241,12 +304,7 @@
                         <h5 class="card-title">{{ $producto->nombre }}</h5>
                         <p class="card-text">{{ $producto->descripcion }}</p>
                         <p class="price">{{ $producto->precio }}€</p>
-                        <button class="btn agregar-carrito" data-id="{{ $producto->id }}">Agregar al Carrito</button>
-                        <form action="{{ route('carrito.agregar') }}" method="POST" class="d-none">
-                            @csrf
-                            <input type="hidden" name="nombre" value="{{ $producto->nombre }}">
-                            <input type="hidden" name="precio" value="{{ $producto->precio }}">
-                        </form>
+                        <button class="btn agregar-carrito" data-nombre="{{ $producto->nombre }}" data-precio="{{ $producto->precio }}">Agregar al Carrito</button>
                     </div>
                 </div>
             </div>
