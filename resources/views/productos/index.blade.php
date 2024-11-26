@@ -195,7 +195,7 @@
                         <p class="card-text">{{ $producto->descripcion }}</p>
                         <p class="price">{{ $producto->precio }}€</p>
                         <button class="btn agregar-carrito" data-id="{{ $producto->id }}">Agregar al Carrito</button>
-                        <form action="{{ route('carrito.agregar') }}" method="POST" class="d-none">
+                        <form method="POST" action="{{ route('carrito.agregar') }}">
                             @csrf
                             <input type="hidden" name="nombre" value="{{ $producto->nombre }}">
                             <input type="hidden" name="precio" value="{{ $producto->precio }}">
@@ -222,10 +222,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById('mensaje').innerText = data.mensaje;
-                        document.getElementById('mensaje').style.display = 'block';
-                        setTimeout(() => document.getElementById('mensaje').style.display = 'none',
-                            3000);
+                        window.location.href = '{{ route('carrito.mostrar') }}';
                     });
             });
         });

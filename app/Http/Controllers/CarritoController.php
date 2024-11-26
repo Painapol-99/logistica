@@ -18,13 +18,14 @@ class CarritoController extends Controller
         $carrito[] = $producto;
         session()->put('carrito', $carrito);
 
-        return redirect()->route('carrito.mostrar');
+        return response()->json(['mensaje' => 'Producto agregado al carrito']);
     }
 
     public function mostrar()
     {
         $carrito = session()->get('carrito', []);
-        return view('compras.carrito', compact('carrito'));
+        return view('compras/carrito', compact('carrito'));
+        return Redirect::route('compras/carrito')->compact('carrito');
     }
 }
 ?>
