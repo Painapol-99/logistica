@@ -273,36 +273,16 @@
                                 <h5 class="card-title">{{ $producto->nombre }}</h5>
                                 <p class="card-text">{{ $producto->descripcion }}</p>
                                 <p class="price">Precio: {{ $producto->precio }}€</p>
-                                <button class="agregar-carrito" data-id="{{ $producto->id }}">Agregar al Carrito</button>
+                                <button class="agregar-carrito" data-id="{{ $producto->id }}" data-nombre="{{ $producto->nombre }}" data-precio="{{ $producto->precio }}">Añadir al carrito</button>
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
+            <h2>Carrito</h2>
+            <ul id="lista-carrito"></ul>
         </div>
-
-        <script>
-            document.querySelectorAll('.agregar-carrito').forEach(boton => {
-                boton.addEventListener('click', function () {
-                    const id = this.getAttribute('data-id');
-                    fetch('{{ route("carrito.agregar") }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({ id })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        const mensaje = document.getElementById('mensaje');
-                        mensaje.innerText = data.mensaje;
-                        mensaje.style.display = 'block';
-                        setTimeout(() => mensaje.style.display = 'none', 3000);
-                    });
-                });
-            });
-        </script>
+        <script src="{{ asset('js/carrito.js') }}"></script>
     </body>
     </html>
 </x-app-layout>

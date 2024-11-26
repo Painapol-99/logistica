@@ -21,7 +21,7 @@ if (isset($_POST['nombre']) && isset($_POST['precio'])) {
     }
 }
 
-// Redirigir a la página principal
-header('/dashboard');
+// Redirigir a la página del carrito
+header('Location: /carrito');
 exit;
 ?>

@@ -30,7 +30,8 @@
                 </li>
             <?php endforeach; ?>
         </ul>
-        <form action="vaciar.php" method="POST">
+        <form action="{{ route('carrito.vaciar') }}" method="POST">
+            @csrf
             <button type="submit">Vaciar Carrito</button>
         </form>
     <?php else: ?>

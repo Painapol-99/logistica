@@ -45,6 +45,7 @@ require __DIR__.'/auth.php';
 
 Route::get('/compras', [CompraController::class, 'index'])->name('compras.index');
 Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+Route::post('/carrito/vaciar', [CarritoController::class, 'vaciar'])->name('carrito.vaciar');
 Route::get('/carrito', [CarritoController::class, 'mostrar'])->name('carrito.mostrar');
 Route::post('/comprar', [CompraController::class, 'procesarCompra'])->name('comprar');
 

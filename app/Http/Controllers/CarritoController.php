@@ -9,25 +9,20 @@ class CarritoController extends Controller
 {
     public function agregar(Request $request)
     {
-        $id = $request->input('id');
-
-        $producto = Producto::findOrFail($id);
+        $request->validate([
+            'nombre' => 'required|string',
+            'precio' => 'required|numeric',
+        ]);
 
         $carrito = session()->get('carrito', []);
-
-        if (isset($carrito[$id])) {
-            $carrito[$id]['cantidad']++;
-        } else {
-            $carrito[$id] = [
-                'nombre' => $producto->nombre,
-                'precio' => $producto->precio,
-                'cantidad' => 1,
-            ];
-        }
+        $carrito[] = [
+            'nombre' => $request->nombre,
+            'precio' => $request->precio,
+        ];
 
         session()->put('carrito', $carrito);
 
-        return response()->json(['mensaje' => 'Producto agregado al carrito']);
+        return redirect()->route('dashboard');
     }
 
     public function mostrar()
@@ -36,3 +31,4 @@ class CarritoController extends Controller
         return view('compras.carrito', compact('carrito'));
     }
 }
+?>

@@ -188,8 +188,9 @@ session_start();
                     <p>{{ $producto->descripcion }}</p>
                     <p class="precio">{{ $producto->precio }}€</p>
 
-                    <form action="agregar.php" method="POST">
-                        <input type="hidden" name="nombre" value="{{$producto->nombre}}">
+                    <form action="{{ route('carrito.agregar') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="nombre" value="{{ $producto->nombre }}">
                         <input type="hidden" name="precio" value="{{ $producto->precio }}">
                         <button type="submit" class="btn btn-primary agregar-carrito">
                             Agregar al Carrito

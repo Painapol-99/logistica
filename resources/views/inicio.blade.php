@@ -265,7 +265,6 @@
             <p>Optimiza tus repartos con nuestra aplicación.</p>
             <div>
                 <a href="{{ url('/productos') }}" class="btn">Ver Productos</a>
-                <a href="{{ url('/repartidor') }}" class="btn">Ver Repartos</a>
             </div>
         </section>
 

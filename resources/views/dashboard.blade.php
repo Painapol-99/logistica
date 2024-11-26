@@ -231,7 +231,7 @@
             <p>Optimiza tus repartos con nuestra aplicación.</p>
             <div class="hero-buttons">
                 <a href="{{ url('/productos') }}">Ver Productos</a>
-                <a href="{{ url('/repartidor') }}">Ver Repartos</a>
+                <a href="{{ url('/compras') }}">Comprar</a>
             </div>
         </section>
 

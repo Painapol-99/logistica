@@ -6,6 +6,6 @@
     unset($_SESSION['carrito']);
 
     // Redirigir al carrito
-    header('/carrito');
+    header('Location: /carrito');
     exit;
 ?>
