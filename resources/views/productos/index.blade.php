@@ -304,11 +304,13 @@
                         <h5 class="card-title">{{ $producto->nombre }}</h5>
                         <p class="card-text">{{ $producto->descripcion }}</p>
                         <p class="price">{{ $producto->precio }}€</p>
+                        @auth
                         <form method="POST" action="{{ route('carrito.agregar') }}">
                             @csrf
                             <input type="hidden" name="producto_id" value="{{ $producto->id }}">
                             <button type="submit" class="btn btn-success">Agregar al Carrito</button>
                         </form>
+                        @endauth
                     </div>
                 </div>
             </div>
