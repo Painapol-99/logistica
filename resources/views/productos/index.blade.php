@@ -307,7 +307,7 @@
                         @auth
                         <form method="POST" action="{{ route('carrito.agregar') }}">
                             @csrf
-                            <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                            <input type="hidden" name="idProducto" value="{{ $producto->id }}">
                             <button type="submit" class="btn btn-success">Agregar al Carrito</button>
                         </form>
                         @endauth
