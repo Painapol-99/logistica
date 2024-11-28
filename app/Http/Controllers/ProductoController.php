@@ -20,7 +20,7 @@ class ProductoController extends Controller
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric',
             'categoria' => 'required|exists:categorias,id',
-        
+            'imagen' => 'required|string|max:255',
         ]);
 
         return Producto::create($request->all());
@@ -37,6 +37,7 @@ class ProductoController extends Controller
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric',
             'categoria' => 'required|exists:categorias,id',
+            'imagen' => 'required|string|max:255',
         ]);
 
         $productos->update($request->all());
