@@ -47,9 +47,9 @@ require __DIR__.'/auth.php';
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/carrito', [CarritoController::class, 'mostrar'])->name('carrito.mostrar');
-    Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
-    Route::patch('/carrito/{producto}', [CarritoController::class, 'actualizar'])->name('carrito.actualizar');
-    Route::delete('/carrito/{producto}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
+    Route::post('/carrito', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+    Route::patch('/carrito/{id}', [CarritoController::class, 'actualizar'])->name('carrito.actualizar');
+    Route::delete('/carrito/{id}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
 });
 
 Route::resource('categorias', CategoriaController::class)->except(['create', 'edit']);

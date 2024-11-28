@@ -14,15 +14,13 @@ class ProductoController extends Controller
         return view('productos.index', compact('productos'));
     }
 
-
-    
-
     public function store(Request $request)
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric',
             'categoria' => 'required|exists:categorias,id',
+        
         ]);
 
         return Producto::create($request->all());

@@ -18,11 +18,11 @@ class CarritoController extends Controller
         $producto = Producto::find($request->idProducto);
 
         if (!$producto) {
-            return redirect()->route('productos.index')->with('error', 'Producto no encontrado');
+            return response()->json(['error' => 'Producto no encontrado'], 404);
         }
 
         $cartItem = CartItem::where('user_id', Auth::id())
-            ->where('idProducto', $producto->id)
+            ->where('producto_id', $producto->id)
             ->first();
 
         if ($cartItem) {
@@ -31,12 +31,12 @@ class CarritoController extends Controller
         } else {
             CartItem::create([
                 'user_id' => Auth::id(),
-                'idProducto' => $producto->id,
+                'producto_id' => $producto->id,
                 'cantidad' => 1,
             ]);
         }
 
-        return redirect()->route('carrito.mostrar')->with('success', 'Producto agregado al carrito');
+        return response()->json(['success' => 'Producto agregado al carrito']);
     }
 
     public function mostrar()
@@ -45,10 +45,10 @@ class CarritoController extends Controller
         return view('compras.carrito', compact('carrito'));
     }
 
-    public function actualizar(Request $request, $producto)
+    public function actualizar(Request $request, $id)
     {
         $cartItem = CartItem::where('user_id', Auth::id())
-            ->where('idProducto', $producto)
+            ->where('producto_id', $id)
             ->first();
 
         if ($cartItem) {
@@ -59,10 +59,10 @@ class CarritoController extends Controller
         return redirect()->route('carrito.mostrar')->with('success', 'Cantidad actualizada');
     }
 
-    public function eliminar($producto)
+    public function eliminar($id)
     {
         $cartItem = CartItem::where('user_id', Auth::id())
-            ->where('idProducto', $producto)
+            ->where('id', $id)
             ->first();
 
         if ($cartItem) {

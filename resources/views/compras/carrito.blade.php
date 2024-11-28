@@ -238,23 +238,6 @@
     </main>
  
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-            const listaCarrito = document.querySelector("#lista-carrito");
- 
-            function renderCarrito() {
-                listaCarrito.innerHTML = "";
-                carrito.forEach(item => {
-                    const li = document.createElement("li");
-                    li.classList.add("cart-item", "list-group-item");
-                    li.innerHTML = `<span class="cart-item-name">${item.nombre}</span> <span class="cart-item-price">${item.precio}€</span>`;
-                    listaCarrito.appendChild(li);
-                });
-            }
- 
-            renderCarrito();
-        });
- 
         function vaciarCarrito() {
             localStorage.removeItem('carrito');
             document.getElementById('lista-carrito').innerHTML = '';

@@ -321,6 +321,66 @@
     <footer>
         <p>&copy; {{ date('Y') }} LogFood. Todos los derechos reservados.</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('form[action="{{ route('carrito.agregar') }}"]');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const formData = new FormData(form);
+                    fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json',
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Producto agregado al carrito');
+                            const producto = {
+                                id: formData.get('idProducto'),
+                                nombre: form.querySelector('.card-title').innerText,
+                                precio: form.querySelector('.price').innerText
+                            };
+                            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+                            const index = carrito.findIndex(item => item.id === producto.id);
+                            if (index !== -1) {
+                                carrito[index].cantidad++;
+                            } else {
+                                producto.cantidad = 1;
+                                carrito.push(producto);
+                            }
+                            localStorage.setItem('carrito', JSON.stringify(carrito));
+                            actualizarListaCarrito();
+                        } else {
+                            alert('Error al agregar el producto al carrito');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+            });
+
+            function actualizarListaCarrito() {
+                const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+                const listaCarrito = document.getElementById('lista-carrito');
+                if (listaCarrito) {
+                    listaCarrito.innerHTML = '';
+                    carrito.forEach(item => {
+                        const li = document.createElement('li');
+                        li.classList.add('cart-item', 'list-group-item');
+                        li.innerHTML = `<span class="cart-item-name">${item.nombre}</span> <span class="cart-item-price">${item.precio}</span> <span class="cart-item-quantity">Cantidad: ${item.cantidad}</span>`;
+                        listaCarrito.appendChild(li);
+                    });
+                }
+            }
+
+            actualizarListaCarrito();
+        });
+    </script>
 </body>
 
 </html>
