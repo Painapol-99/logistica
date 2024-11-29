@@ -205,9 +205,9 @@
         }
 
         .search-bar input {
-            width: 100%; /* Ajustar el ancho al 100% */
+            width: 80%;
             padding: 10px;
-            border-radius: 20px;
+            border-radius: 20px 0 0 20px;
             border: 1px solid #ccc;
             outline: none;
         }
@@ -220,19 +220,6 @@
             background-color: #28a745;
             color: #fff;
             cursor: pointer;
-        }
-
-        .search-bar .clear-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #ccc;
-            margin-left: -30px;
-        }
-
-        .search-bar .clear-btn:hover {
-            color: #000;
         }
 
         .notification {
@@ -298,7 +285,8 @@
 
     <!-- Search Bar -->
     <div class="search-bar">
-        <input type="text" id="search" placeholder="Buscar productos..." oninput="searchProducts()">
+        <input type="text" id="search" placeholder="Buscar productos...">
+        <button onclick="searchProducts()">Buscar</button>
     </div>
 
     <!-- Notification -->
@@ -352,7 +340,7 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Actualizar el carrito en localStorage
+                            alert('Producto agregado al carrito');
                             const producto = {
                                 id: formData.get('idProducto'),
                                 nombre: form.querySelector('.card-title').innerText,
@@ -369,7 +357,7 @@
                             localStorage.setItem('carrito', JSON.stringify(carrito));
                             actualizarListaCarrito();
                         } else {
-                            console.error('Error al agregar el producto al carrito');
+                            alert('Error al agregar el producto al carrito');
                         }
                     })
                     .catch(error => console.error('Error:', error));
@@ -392,20 +380,6 @@
 
             actualizarListaCarrito();
         });
-
-        function searchProducts() {
-            const searchTerm = document.getElementById('search').value.toLowerCase();
-            const productItems = document.querySelectorAll('.product-item');
-
-            productItems.forEach(item => {
-                const productName = item.querySelector('.card-title').innerText.toLowerCase();
-                if (productName.includes(searchTerm)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
     </script>
 </body>
 

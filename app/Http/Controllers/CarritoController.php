@@ -71,17 +71,5 @@ class CarritoController extends Controller
 
         return redirect()->route('carrito.mostrar')->with('success', 'Producto eliminado');
     }
-
-    public function vaciar()
-    {
-        CartItem::where('user_id', Auth::id())->delete();
-        return redirect()->route('carrito.mostrar')->with('success', 'Carrito vaciado');
-    }
-
-    public function pago()
-    {
-        $carrito = CartItem::where('user_id', Auth::id())->with('producto')->get();
-        return view('compras.pago', compact('carrito'));
-    }
 }
 ?>
