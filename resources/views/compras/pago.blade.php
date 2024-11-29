@@ -189,10 +189,15 @@
             <input type="hidden" name="tip" value="{{ $tip }}">
             <button type="submit" class="btn btn-success mt-2">Pagar Ahora</button>
         </form>
+        <div class="d-flex justify-content-center gap-2 mt-2">
+            <a href="/dashboard" class="btn btn-primary">Volver a la tienda</a>
+            <a href="/productos" class="btn btn-secondary">Volver a comprar</a>
+        </div>
     </main>
 
     <footer>
         <p>&copy; {{ date('Y') }} LogFood. Todos los derechos reservados.</p>
+        <button onclick="window.location.href='{{ url('/productos') }}'" class="btn btn-primary mt-2">Volver a Comprar</button>
     </footer>
 
     <script>

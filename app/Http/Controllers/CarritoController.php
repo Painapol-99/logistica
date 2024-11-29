@@ -36,7 +36,9 @@ class CarritoController extends Controller
             ]);
         }
 
-        return response()->json(['success' => 'Producto agregado al carrito']);
+        $totalItems = CartItem::where('user_id', Auth::id())->sum('cantidad');
+
+        return response()->json(['success' => true, 'totalItems' => $totalItems]);
     }
 
     public function mostrar()
