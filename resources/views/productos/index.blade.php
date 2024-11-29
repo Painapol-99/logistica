@@ -308,8 +308,8 @@
                 <li>
                     <a href="{{ route('carrito.mostrar') }}">
                         <img class="logo" src="{{ asset('cesta.png') }}" alt="Cesta" style="width: 60px; height: 50px;">
+                        <span id="cart-count" class="badge bg-secondary">{{ $totalItems ?? 0 }}</span>
                     </a>
-                    <span id="cart-count" style="color: var(--color-texto-principal); font-weight: bold; font-size: 1.2rem;">0</span>
                 </li>
                 @endauth
             </ul>
@@ -387,9 +387,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        console.log('Response data:', data); // Agrega este console.log
                         if (data.success) {
-                            // Actualizar el carrito en localStorage
                             const producto = {
                                 id: formData.get('idProducto'),
                                 nombre: form.querySelector('.card-title').innerText,
@@ -405,8 +403,7 @@
                             }
                             localStorage.setItem('carrito', JSON.stringify(carrito));
                             actualizarListaCarrito();
-                            console.log('Total items:', data.totalItems); // Agrega este console.log
-                            document.getElementById('cart-count').innerText = data.totalItems; // Actualizar el contador del carrito
+                            actualizarContadorCarrito(data.totalItems);
                         } else {
                             console.error('Error al agregar el producto al carrito');
                         }
@@ -429,15 +426,20 @@
                 }
             }
 
-            function actualizarContadorCarrito() {
-                const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-                const contador = carrito.reduce((total, item) => total + item.cantidad, 0);
-                console.log('Updated cart count:', contador); // Agrega este console.log
-                document.getElementById('cart-count').innerText = contador;
+            function actualizarContadorCarrito(totalItems) {
+                document.getElementById('cart-count').innerText = totalItems;
             }
 
-            actualizarListaCarrito();
-            actualizarContadorCarrito();
+            function fetchTotalItems() {
+                fetch('{{ route('carrito.totalItems') }}')
+                    .then(response => response.json())
+                    .then(data => {
+                        actualizarContadorCarrito(data.totalItems);
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            fetchTotalItems();
         });
 
         function searchProducts() {

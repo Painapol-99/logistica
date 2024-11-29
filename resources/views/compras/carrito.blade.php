@@ -281,7 +281,12 @@
                         <button type="submit" style="background: none; border: none; color: var(--color-texto-principal); font-weight: bold; font-size: 1.2rem; cursor: pointer; padding: 0; margin: 0;">Cerrar Sesión</button>
                     </form>
                 </li>
-                
+                <li>
+                    <a href="{{ route('carrito.mostrar') }}">
+                        <img class="logo" src="{{ asset('cesta.png') }}" alt="Cesta" style="width: 60px; height: 50px;">
+                        <span id="cart-count" class="badge bg-secondary">{{ $carrito->sum('cantidad') }}</span>
+                    </a>
+                </li>
                 @endauth
             </ul>
         </nav>
@@ -333,7 +338,7 @@
         <div class="d-flex justify-content-center gap-2 mt-2">
             
             <a href="/dashboard" class="btn btn-primary">Volver a la tienda</a>
-            <form action="{{ route('carrito.vaciar') }}" method="POST">
+            <form action="{{ route('carrito.vaciar') }}" method="POST" id="vaciar-carrito-form">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger">Vaciar Carrito</button>
@@ -347,6 +352,12 @@
     </footer>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const vaciarCarritoForm = document.getElementById('vaciar-carrito-form');
+            vaciarCarritoForm.addEventListener('submit', function(event) {
+                localStorage.removeItem('carrito');
+                document.getElementById('click-count').innerText = 0;
+            });
+
             const tipOptions = document.querySelectorAll('input[name="tip"]');
             const tipAmountElement = document.getElementById('tip-amount');
             const tipInput = document.getElementById('tip-input');

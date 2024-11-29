@@ -44,7 +44,8 @@ class CarritoController extends Controller
     public function mostrar()
     {
         $carrito = CartItem::where('user_id', Auth::id())->with('producto')->get();
-        return view('compras.carrito', compact('carrito'));
+        $totalItems = $carrito->sum('cantidad');
+        return view('compras.carrito', compact('carrito', 'totalItems'));
     }
 
     public function actualizar(Request $request, $id)
@@ -101,6 +102,25 @@ class CarritoController extends Controller
         // ...
 
         return redirect()->route('carrito.mostrar')->with('success', 'Pago procesado correctamente');
+    }
+
+    public function index()
+    {
+        $productos = Producto::all();
+        $totalItems = 0;
+        if (Auth::check()) {
+            $totalItems = CartItem::where('user_id', Auth::id())->sum('cantidad');
+        }
+        return view('productos.index', compact('productos', 'totalItems'));
+    }
+
+    public function totalItems()
+    {
+        $totalItems = 0;
+        if (Auth::check()) {
+            $totalItems = CartItem::where('user_id', Auth::id())->sum('cantidad');
+        }
+        return response()->json(['totalItems' => $totalItems]);
     }
 }
 ?>
