@@ -50,6 +50,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/carrito', [CarritoController::class, 'agregar'])->name('carrito.agregar');
     Route::patch('/carrito/{id}', [CarritoController::class, 'actualizar'])->name('carrito.actualizar');
     Route::delete('/carrito/{id}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
+    Route::delete('/carrito', [CarritoController::class, 'vaciar'])->name('carrito.vaciar'); // Nueva ruta para vaciar el carrito
+    Route::get('/pago', [CarritoController::class, 'pago'])->name('pago'); // Nueva ruta para la página de pago
 });
 
 Route::resource('categorias', CategoriaController::class)->except(['create', 'edit']);
