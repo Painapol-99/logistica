@@ -71,6 +71,8 @@
         }
         .move-to-cart {
             animation: moveToCart 1s forwards;
+            position: absolute;
+            z-index: 1000;
         }
  
         header {
@@ -295,17 +297,20 @@
             <ul>
                 <li><a href="{{ url('/') }}">Inicio</a></li>
                 <li><a href="{{ url('/about') }}">Sobre Nosotros</a></li>
-                <li><a href="{{ url('/productos') }}">Productos</a></li>
                 @auth
                 <li><a href="{{ route('profile.edit') }}">Usuario</a></li>
-                <li><a href="{{ route('carrito.mostrar') }}">Carrito</a></li>
                 <li>
                     <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf
                         <button type="submit" style="background: none; border: none; color: var(--color-texto-principal); font-weight: bold; font-size: 1.2rem; cursor: pointer; padding: 0; margin: 0;">Cerrar Sesión</button>
                     </form>
                 </li>
-                <li> <img class="logo" src="{{ asset('cesta.png') }}" alt="Cesta" style="width: 60px; height: 50px;"> <span id="cart-count" style="color: var(--color-texto-principal); font-weight: bold; font-size: 1.2rem;">0</span> </li>
+                <li>
+                    <a href="{{ route('carrito.mostrar') }}">
+                        <img class="logo" src="{{ asset('cesta.png') }}" alt="Cesta" style="width: 60px; height: 50px;">
+                    </a>
+                    <span id="cart-count" style="color: var(--color-texto-principal); font-weight: bold; font-size: 1.2rem;">0</span>
+                </li>
                 @endauth
             </ul>
         </nav>
@@ -326,7 +331,9 @@
             @foreach($productos as $producto)
             <div class="col-md-4 mb-4 product-item">
                 <div class="card">
-                    <img src="{{ asset('img/' . $producto->imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}">
+                    <a href="{{ route('carrito.mostrar') }}">
+                        <img src="{{ asset('img/' . $producto->imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}">
+                    </a>
                     <div class="card-body">
                         <h5 class="card-title">{{ $producto->nombre }}</h5>
                         <p class="card-text">{{ $producto->descripcion }}</p>
@@ -358,6 +365,12 @@
                     const formData = new FormData(form);
                     const img = form.closest('.card').querySelector('.card-img-top');
                     const clonedImg = img.cloneNode(true);
+                    const rect = img.getBoundingClientRect();
+                    clonedImg.style.position = 'absolute';
+                    clonedImg.style.top = `${rect.top}px`;
+                    clonedImg.style.left = `${rect.left}px`;
+                    clonedImg.style.width = `${rect.width}px`;
+                    clonedImg.style.height = `${rect.height}px`;
                     clonedImg.classList.add('move-to-cart');
                     document.body.appendChild(clonedImg);
                     setTimeout(() => {
@@ -392,6 +405,7 @@
                             }
                             localStorage.setItem('carrito', JSON.stringify(carrito));
                             actualizarListaCarrito();
+                            console.log('Total items:', data.totalItems); // Agrega este console.log
                             document.getElementById('cart-count').innerText = data.totalItems; // Actualizar el contador del carrito
                         } else {
                             console.error('Error al agregar el producto al carrito');
@@ -418,6 +432,7 @@
             function actualizarContadorCarrito() {
                 const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
                 const contador = carrito.reduce((total, item) => total + item.cantidad, 0);
+                console.log('Updated cart count:', contador); // Agrega este console.log
                 document.getElementById('cart-count').innerText = contador;
             }
 
