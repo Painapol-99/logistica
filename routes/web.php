@@ -52,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/carrito/{id}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
     Route::delete('/carrito', [CarritoController::class, 'vaciar'])->name('carrito.vaciar'); // Nueva ruta para vaciar el carrito
     Route::get('/pago', [CarritoController::class, 'pago'])->name('pago'); // Nueva ruta para la página de pago
+    Route::post('/pago/procesar', [CarritoController::class, 'procesarPago'])->name('pago.procesar'); // Nueva ruta para procesar el pago
 });
 
 Route::resource('categorias', CategoriaController::class)->except(['create', 'edit']);

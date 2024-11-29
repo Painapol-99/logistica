@@ -362,13 +362,19 @@
             <label for="tip-30">30%</label>
         </div>
         <div class="tip-amount" id="tip-amount">Propina: 0€</div>
+        <form action="{{ route('pago') }}" method="GET">
+            <input type="hidden" name="tip" id="tip-input" value="0">
+            <button type="submit" class="btn btn-success mt-2">Confirmar Compra</button>
+        </form>
         <form action="{{ route('carrito.vaciar') }}" method="POST">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger mt-2">Vaciar Carrito</button>
         </form>
-        <a href="/dashboard" class="btn btn-primary mt-2">Volver a la tienda</a>
-        <a href="{{ route('pago') }}" class="btn btn-success mt-2">Confirmar Compra</a>
+        <div class="d-flex justify-content-between mt-2">
+            <a href="/dashboard" class="btn btn-primary">Volver a la tienda</a>
+            <a href="{{ route('productos.index') }}" class="btn btn-secondary">Volver a Comprar</a>
+        </div>
     </main>
  
     <footer>
@@ -378,6 +384,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const tipOptions = document.querySelectorAll('input[name="tip"]');
             const tipAmountElement = document.getElementById('tip-amount');
+            const tipInput = document.getElementById('tip-input');
             const totalPrice = {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) }};
 
             tipOptions.forEach(option => {
@@ -385,6 +392,7 @@
                     const tipPercentage = parseInt(this.value);
                     const tipAmount = (totalPrice * tipPercentage / 100).toFixed(2);
                     tipAmountElement.textContent = `Propina: ${tipAmount}€`;
+                    tipInput.value = tipAmount;
                 });
             });
         });

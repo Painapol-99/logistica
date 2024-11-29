@@ -65,6 +65,7 @@
             padding: 1rem 0;
             text-align: center;
             box-shadow: 0 4px 10px var(--color-shadow);
+            position: relative;
         }
 
         header .logo {
@@ -268,6 +269,28 @@
             font-size: 1.2rem;
             color: var(--color-fondo-1);
         }
+
+        #cesta {
+            position: relative;
+            width: 60px; /* Reduce el tamaño de la cesta */
+            height: 50px; /* Reduce el tamaño de la cesta */
+        }
+
+        .cart-counter {
+            position: absolute;
+            top: -10px; /* Ajusta la posición para que esté encima de la imagen */
+            right: -10px; /* Ajusta la posición para que esté encima de la imagen */
+            color: white;
+            border-radius: 50%;
+            padding: 2px 5px;
+            font-size: 0.8rem;
+        }
+
+        .fly-to-cart {
+            position: absolute;
+            z-index: 1000;
+            transition: transform 1s ease-in-out;
+        }
     </style>
 </head>
 
@@ -291,9 +314,14 @@
                         <button type="submit" style="background: none; border: none; color: var(--color-texto-principal); font-weight: bold; font-size: 1.2rem; cursor: pointer; padding: 0; margin: 0;">Cerrar Sesión</button>
                     </form>
                 </li>
+                <li style="position: relative;">
+                    <img id="cesta" src="{{ asset('cesta.png') }}" alt="Cesta">
+                    <span id="cart-counter" class="cart-counter">0</span>
+                </li>
                 @endauth
             </ul>
         </nav>
+        
     </header>
 
     <!-- Search Bar -->
@@ -330,6 +358,11 @@
         </div>
     </div>
 
+    <form action="{{ route('pago.procesar') }}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-success mt-2">Pagar Ahora</button>
+    </form>
+
     <footer>
         <p>&copy; {{ date('Y') }} LogFood. Todos los derechos reservados.</p>
     </footer>
@@ -341,38 +374,54 @@
                 form.addEventListener('submit', function(event) {
                     event.preventDefault();
                     const formData = new FormData(form);
-                    fetch(form.action, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Accept': 'application/json',
-                        },
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Actualizar el carrito en localStorage
-                            const producto = {
-                                id: formData.get('idProducto'),
-                                nombre: form.querySelector('.card-title').innerText,
-                                precio: form.querySelector('.price').innerText
-                            };
-                            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-                            const index = carrito.findIndex(item => item.id === producto.id);
-                            if (index !== -1) {
-                                carrito[index].cantidad++;
+                    const productImage = form.querySelector('.card-img-top');
+                    const clonedImage = productImage.cloneNode(true);
+                    clonedImage.classList.add('fly-to-cart');
+                    document.body.appendChild(clonedImage);
+                    const cartIcon = document.getElementById('cesta');
+                    const cartRect = cartIcon.getBoundingClientRect();
+                    const productRect = productImage.getBoundingClientRect();
+                    clonedImage.style.left = `${productRect.left}px`;
+                    clonedImage.style.top = `${productRect.top}px`;
+                    setTimeout(() => {
+                        clonedImage.style.transform = `translate(${cartRect.left - productRect.left}px, ${cartRect.top - productRect.top}px) scale(0.1)`;
+                    }, 0);
+                    setTimeout(() => {
+                        document.body.removeChild(clonedImage);
+                        fetch(form.action, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Accept': 'application/json',
+                            },
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Actualizar el carrito en localStorage
+                                const producto = {
+                                    id: formData.get('idProducto'),
+                                    nombre: form.querySelector('.card-title').innerText,
+                                    precio: form.querySelector('.price').innerText
+                                };
+                                let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+                                const index = carrito.findIndex(item => item.id === producto.id);
+                                if (index !== -1) {
+                                    carrito[index].cantidad++;
+                                } else {
+                                    producto.cantidad = 1;
+                                    carrito.push(producto);
+                                }
+                                localStorage.setItem('carrito', JSON.stringify(carrito));
+                                actualizarListaCarrito();
+                                actualizarContadorCarrito();
                             } else {
-                                producto.cantidad = 1;
-                                carrito.push(producto);
+                                console.error('Error al agregar el producto al carrito');
                             }
-                            localStorage.setItem('carrito', JSON.stringify(carrito));
-                            actualizarListaCarrito();
-                        } else {
-                            console.error('Error al agregar el producto al carrito');
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
+                        })
+                        .catch(error => console.error('Error:', error));
+                    }, 1000);
                 });
             });
 
@@ -390,7 +439,15 @@
                 }
             }
 
+            function actualizarContadorCarrito() {
+                const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+                const contadorCarrito = document.getElementById('cart-counter');
+                const totalProductos = carrito.reduce((total, item) => total + item.cantidad, 0);
+                contadorCarrito.innerText = totalProductos;
+            }
+
             actualizarListaCarrito();
+            actualizarContadorCarrito();
         });
 
         function searchProducts() {

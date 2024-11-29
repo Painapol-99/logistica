@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -181,8 +180,13 @@
         <div class="total-price">
             <h3>Precio Total: {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) }}€</h3>
         </div>
+        <div class="tip-amount">Propina: {{ $tip }}€</div>
+        <div class="total-with-tip">
+            <h3>Total con Propina: {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) + $tip }}€</h3>
+        </div>
         <form action="{{ route('pago.procesar') }}" method="POST">
             @csrf
+            <input type="hidden" name="tip" value="{{ $tip }}">
             <button type="submit" class="btn btn-success mt-2">Pagar Ahora</button>
         </form>
     </main>
@@ -190,6 +194,24 @@
     <footer>
         <p>&copy; {{ date('Y') }} LogFood. Todos los derechos reservados.</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tipOptions = document.querySelectorAll('input[name="tip"]');
+            const tipAmountElement = document.getElementById('tip-amount');
+            const tipInput = document.getElementById('tip-input');
+            const totalPrice = {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) }};
+
+            tipOptions.forEach(option => {
+                option.addEventListener('change', function() {
+                    const tipPercentage = parseInt(this.value);
+                    const tipAmount = (totalPrice * tipPercentage / 100).toFixed(2);
+                    tipAmountElement.textContent = `Propina: ${tipAmount}€`;
+                    tipInput.value = tipAmount;
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

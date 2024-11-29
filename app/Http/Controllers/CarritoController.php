@@ -78,10 +78,27 @@ class CarritoController extends Controller
         return redirect()->route('carrito.mostrar')->with('success', 'Carrito vaciado');
     }
 
-    public function pago()
+    public function pago(Request $request)
     {
         $carrito = CartItem::where('user_id', Auth::id())->with('producto')->get();
-        return view('compras.pago', compact('carrito'));
+        $tip = $request->input('tip', 0);
+        return view('compras.pago', compact('carrito', 'tip'));
+    }
+
+    public function procesarPago(Request $request)
+    {
+        $carrito = CartItem::where('user_id', Auth::id())->with('producto')->get();
+        $total = $carrito->sum(function($item) {
+            return $item->producto->precio * $item->cantidad;
+        });
+
+        $tip = $request->input('tip', 0);
+        $totalConPropina = $total + $tip;
+
+        // Lógica para procesar el pago con $totalConPropina
+        // ...
+
+        return redirect()->route('carrito.mostrar')->with('success', 'Pago procesado correctamente');
     }
 }
 ?>
