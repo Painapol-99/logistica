@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
-use App\Models\Categoria;
 
 class ProductoController extends Controller
 {
@@ -12,8 +11,7 @@ class ProductoController extends Controller
     public function index()
     {
         $productos = Producto::all();
-        $categorias = Categoria::all();
-        return view('productos.index', compact('productos', 'categorias'));
+        return view('productos.index', compact('productos'));
     }
 
     public function store(Request $request)
@@ -21,7 +19,7 @@ class ProductoController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric',
-            'categoria_id' => 'required|exists:categorias,id', // Cambiado a categoria_id
+            'categoria' => 'required|exists:categorias,id',
             'imagen' => 'required|string|max:255',
         ]);
 
@@ -38,7 +36,7 @@ class ProductoController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric',
-            'categoria_id' => 'required|exists:categorias,id', // Cambiado a categoria_id
+            'categoria' => 'required|exists:categorias,id',
             'imagen' => 'required|string|max:255',
         ]);
 

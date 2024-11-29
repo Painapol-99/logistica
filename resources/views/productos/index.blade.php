@@ -206,9 +206,9 @@
         }
 
         .search-bar input {
-            width: 100%; /* Ajustar el ancho al 100% */
+            width: 80%;
             padding: 10px;
-            border-radius: 20px;
+            border-radius: 20px 0 0 20px;
             border: 1px solid #ccc;
             outline: none;
         }
@@ -221,19 +221,6 @@
             background-color: #28a745;
             color: #fff;
             cursor: pointer;
-        }
-
-        .search-bar .clear-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #ccc;
-            margin-left: -30px;
-        }
-
-        .search-bar .clear-btn:hover {
-            color: #000;
         }
 
         .notification {
@@ -326,7 +313,8 @@
 
     <!-- Search Bar -->
     <div class="search-bar">
-        <input type="text" id="search" placeholder="Buscar productos..." oninput="searchProducts()">
+        <input type="text" id="search" placeholder="Buscar productos...">
+        <button onclick="searchProducts()">Buscar</button>
     </div>
 
     <!-- Notification -->
