@@ -7,6 +7,7 @@
     <title>Tu Carrito - LogFood</title>
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Sofadi+One&family=Teko:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+   
     <style>
         :root {
             --color-fondo-1: #FF6F61;
@@ -31,12 +32,12 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start; /* Cambiar a flex-start */
             align-items: center;
             font-size: 16px;
             overflow-x: hidden;
+            overflow-y: auto; /* Permitir desplazamiento vertical */
             position: relative;
-            overflow: hidden;
         }
  
         #space {
@@ -129,6 +130,56 @@
             border-bottom: 1px solid #ccc;
         }
  
+        .cart-item img {
+            max-width: 100px; /* Ajustar el tamaño máximo de la imagen */
+            margin-right: 10px; /* Añadir margen derecho */
+        }
+ 
+        .cart-item-details {
+            display: flex;
+            flex-direction: column;
+            gap: 5px; /* Añadir espacio entre los detalles del producto */
+        }
+ 
+        .cart-item-buttons {
+            display: flex;
+            gap: 5px; /* Añadir espacio entre los botones */
+        }
+ 
+        .cart-item-buttons button {
+            padding: 5px 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+ 
+        .cart-item-buttons .btn-add {
+            background-color: #28a745;
+            color: #fff;
+        }
+ 
+        .cart-item-buttons .btn-add:hover {
+            background-color: #218838;
+        }
+ 
+        .cart-item-buttons .btn-remove {
+            background-color: #dc3545;
+            color: #fff;
+        }
+ 
+        .cart-item-buttons .btn-remove:hover {
+            background-color: #c82333;
+        }
+ 
+        .cart-item-name,
+        .cart-item-price,
+        .cart-item-quantity,
+        .cart-item-total {
+            margin-bottom: 5px; /* Añadir margen inferior */
+        }
+ 
         .cart-item:last-child {
             border-bottom: none;
         }
@@ -182,8 +233,9 @@
             color: var(--color-secundario);
             background-color: var(--color-dark);
             box-shadow: 0 -4px 10px var(--color-shadow);
-            position: absolute;
+            position: relative; /* Cambiar de absolute a relative */
             bottom: 0;
+            margin-top: auto; /* Añadir margen superior automático */
         }
  
         main {
@@ -194,6 +246,45 @@
             align-items: center;
             text-align: center;
             margin-top: 20px;
+            width: 100%; /* Añadir ancho completo */
+            padding: 0 1rem; /* Añadir padding para mejorar el espaciado */
+            overflow-y: auto; /* Permitir desplazamiento vertical en el main */
+        }
+ 
+        .tip-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+ 
+        .tip-options input[type="radio"] {
+            display: none;
+        }
+ 
+        .tip-options label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #28a745;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+ 
+        .tip-options input[type="radio"]:checked + label {
+            background-color: #218838;
+        }
+ 
+        .tip-amount {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--color-secundario);
         }
     </style>
 </head>
@@ -227,9 +318,35 @@
         <ul id="lista-carrito" class="list-group mb-4">
             @foreach($carrito as $item)
             <li class="cart-item list-group-item">
-                <span class="cart-item-name">{{ $item->producto->nombre }}</span>
-                <span class="cart-item-price">{{ $item->producto->precio }}€</span>
-                <span class="cart-item-quantity">Cantidad: {{ $item->cantidad }}</span>
+                <img src="{{ asset('img/' . $item->producto->imagen) }}" alt="{{ $item->producto->nombre }}">
+                <div class="cart-item-details">
+                    <span class="cart-item-name">{{ $item->producto->nombre }}</span>
+                    <span class="cart-item-price">{{ $item->producto->precio }}€</span>
+                    <span class="cart-item-quantity">Cantidad: {{ $item->cantidad }}</span>
+                    <span class="cart-item-total">Total: {{ $item->producto->precio * $item->cantidad }}€</span>
+                </div>
+                <div class="cart-item-buttons">
+                    <form action="{{ route('carrito.actualizar', $item->producto_id) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="cantidad" value="{{ $item->cantidad + 1 }}">
+                        <button type="submit" class="btn-add">+</button>
+                    </form>
+                    @if($item->cantidad > 1)
+                    <form action="{{ route('carrito.actualizar', $item->producto_id) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="cantidad" value="{{ $item->cantidad - 1 }}">
+                        <button type="submit" class="btn-remove">-</button>
+                    </form>
+                    @else
+                    <form action="{{ route('carrito.eliminar', $item->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn-remove">-</button>
+                    </form>
+                    @endif
+                </div>
             </li>
             @endforeach
         </ul>
@@ -245,43 +362,14 @@
             <label for="tip-30">30%</label>
         </div>
         <div class="tip-amount" id="tip-amount">Propina: 0€</div>
-        <form action="{{ route('pago') }}" method="GET">
-            <input type="hidden" name="tip" id="tip-input" value="0">
-            <button type="submit" class="btn btn-success mt-2">Confirmar Compra</button>
-        </form>
         <form action="{{ route('carrito.vaciar') }}" method="POST">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger mt-2">Vaciar Carrito</button>
         </form>
-        <div class="d-flex justify-content-between mt-2">
-            <a href="/dashboard" class="btn btn-primary">Volver a la tienda</a>
-            <a href="{{ route('productos.index') }}" class="btn btn-secondary">Volver a Comprar</a>
-        </div>
+        <a href="/dashboard" class="btn btn-primary mt-2">Volver a la tienda</a>
+        <a href="{{ route('pago') }}" class="btn btn-success mt-2">Confirmar Compra</a>
     </main>
- 
-    <script>
-        function vaciarCarrito() {
-            localStorage.removeItem('carrito');
-            document.getElementById('lista-carrito').innerHTML = '';
-        }
- 
-        const space = document.getElementById('space');
-        const numStars = 1200;
- 
-        for (let i = 0; i < numStars; i++) {
-            let star = document.createElement('div');
-            star.classList.add('star');
-            let size = Math.random() * 4.5;
-            star.style.width = size + 'px';
-            star.style.height = size + 'px';
-            star.style.top = Math.random() * 100 + 'vh';
-            star.style.left = Math.random() * 100 + 'vw';
-            let duration = Math.random() * 5 + 5;
-            star.style.animationDuration = duration + 's';
-            space.appendChild(star);
-        }
-    </script>
  
     <footer>
         <p>&copy; {{ date('Y') }} LogFood. Todos los derechos reservados.</p>
@@ -290,15 +378,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             const tipOptions = document.querySelectorAll('input[name="tip"]');
             const tipAmountElement = document.getElementById('tip-amount');
-            const tipInput = document.getElementById('tip-input');
             const totalPrice = {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) }};
-
+ 
             tipOptions.forEach(option => {
                 option.addEventListener('change', function() {
                     const tipPercentage = parseInt(this.value);
                     const tipAmount = (totalPrice * tipPercentage / 100).toFixed(2);
                     tipAmountElement.textContent = `Propina: ${tipAmount}€`;
-                    tipInput.value = tipAmount;
                 });
             });
         });
