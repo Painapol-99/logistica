@@ -281,10 +281,8 @@
             <ul>
                 <li><a href="{{ url('/') }}">Inicio</a></li>
                 <li><a href="{{ url('/about') }}">Sobre Nosotros</a></li>
-                <li><a href="{{ url('/productos') }}">Productos</a></li>
                 @auth
                 <li><a href="{{ route('profile.edit') }}">Usuario</a></li>
-                <li><a href="{{ route('carrito.mostrar') }}">Carrito</a></li>
                 <li>
                     <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf
@@ -311,7 +309,9 @@
             @foreach($productos as $producto)
             <div class="col-md-4 mb-4 product-item">
                 <div class="card">
-                    <img src="{{ asset('img/' . $producto->imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}">
+                    <a href="{{ route('carrito.mostrar') }}">
+                        <img src="{{ asset('img/' . $producto->imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}">
+                    </a>
                     <div class="card-body">
                         <h5 class="card-title">{{ $producto->nombre }}</h5>
                         <p class="card-text">{{ $producto->descripcion }}</p>

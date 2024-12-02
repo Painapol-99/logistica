@@ -150,6 +150,42 @@
             padding: 0 1rem;
             overflow-y: auto;
         }
+
+        .tip-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tip-options input[type="radio"] {
+            display: none;
+        }
+
+        .tip-options label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #28a745;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tip-options input[type="radio"]:checked + label {
+            background-color: #218838;
+        }
+
+        .tip-amount {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FFF5EE;
+        }
     </style>
 </head>
 
@@ -181,15 +217,24 @@
         <div class="total-price">
             <h3>Precio Total: {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) }}€</h3>
         </div>
-        <div class="tip-amount">Propina: {{ $tip }}€</div>
+        <div class="tip-options">
+            <input type="radio" id="tip-10" name="tip" value="10">
+            <label for="tip-10">10%</label>
+            <input type="radio" id="tip-20" name="tip" value="20">
+            <label for="tip-20">20%</label>
+            <input type="radio" id="tip-30" name="tip" value="30">
+            <label for="tip-30">30%</label>
+        </div>
+        <div class="tip-amount">Propina: <span id="tip-amount">{{ request()->get('tip', 0) }}</span>€</div>
         <div class="total-with-tip">
-            <h3>Total con Propina: {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) + $tip }}€</h3>
+            <h3>Total con Propina: <span id="total-with-tip">{{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) + request()->get('tip', 0) }}</span>€</h3>
         </div>
         <div id="paypal-button-container"></div>
     </main>
 
     <footer>
         <p>&copy; {{ date('Y') }} LogFood. Todos los derechos reservados.</p>
+        <button onclick="window.location.href='{{ url('/productos') }}'" class="btn btn-primary mt-2">Volver a Comprar</button>
     </footer>
 
     <script>

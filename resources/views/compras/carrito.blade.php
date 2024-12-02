@@ -225,6 +225,15 @@
         .btn-primary:hover {
             background-color: #0056b3;
         }
+
+        .btn-secondary {
+            background-color: #6f42c1;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5936a2;
+        }
  
         footer {
             width: 100%;
@@ -286,6 +295,7 @@
             font-weight: bold;
             color: var(--color-secundario);
         }
+ 
     </style>
 </head>
  
@@ -301,12 +311,17 @@
                 <li><a href="{{ url('/productos') }}">Productos</a></li>
                 @auth
                 <li><a href="{{ route('profile.edit') }}">Usuario</a></li>
-                <li><a href="{{ route('carrito.mostrar') }}">Carrito</a></li>
                 <li>
                     <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf
                         <button type="submit" style="background: none; border: none; color: var(--color-texto-principal); font-weight: bold; font-size: 1.2rem; cursor: pointer; padding: 0; margin: 0;">Cerrar Sesión</button>
                     </form>
+                </li>
+                <li>
+                    <a href="{{ route('carrito.mostrar') }}">
+                        <img class="logo" src="{{ asset('cesta.png') }}" alt="Cesta" style="width: 60px; height: 50px;">
+                        <span id="cart-count" class="badge bg-secondary">{{ $carrito->sum('cantidad') }}</span>
+                    </a>
                 </li>
                 @endauth
             </ul>
@@ -376,6 +391,12 @@
     </footer>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const vaciarCarritoForm = document.getElementById('vaciar-carrito-form');
+            vaciarCarritoForm.addEventListener('submit', function(event) {
+                localStorage.removeItem('carrito');
+                document.getElementById('click-count').innerText = 0;
+            });
+
             const tipOptions = document.querySelectorAll('input[name="tip"]');
             const tipAmountElement = document.getElementById('tip-amount');
             const totalPrice = {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) }};
@@ -387,6 +408,14 @@
                     tipAmountElement.textContent = `Propina: ${tipAmount}€`;
                 });
             });
+
+            function actualizarContadorCarrito() {
+                const carrito = @json($carrito);
+                const contador = carrito.reduce((total, item) => total + item.cantidad, 0);
+                document.getElementById('cart-count').innerText = contador;
+            }
+
+            actualizarContadorCarrito();
         });
     </script>
 </body>
