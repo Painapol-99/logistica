@@ -241,7 +241,6 @@
 
     <footer>
         <p>&copy; {{ date('Y') }} LogFood. Todos los derechos reservados.</p>
-        <button onclick="window.location.href='{{ url('/productos') }}'" class="btn btn-primary mt-2">Volver a Comprar</button>
     </footer>
 
     <script>
