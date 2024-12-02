@@ -98,7 +98,7 @@ class CarritoController extends Controller
         // Lógica para procesar el pago con $totalConPropina
         // ...
 
-        return redirect()->route('carrito.mostrar')->with('success', 'Pago procesado correctamente');
+        return redirect()->route('pago')->with('success', 'Pago procesado correctamente');
     }
 }
 ?>

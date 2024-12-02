@@ -10,7 +10,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\PayPalController;
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -44,18 +44,22 @@ Route::get('/', [InicioController::class, 'index'])->name('inicio');
 
 require __DIR__.'/auth.php';
 
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/carrito', [CarritoController::class, 'mostrar'])->name('carrito.mostrar');
     Route::post('/carrito', [CarritoController::class, 'agregar'])->name('carrito.agregar');
     Route::patch('/carrito/{id}', [CarritoController::class, 'actualizar'])->name('carrito.actualizar');
     Route::delete('/carrito/{id}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
-    Route::delete('/carrito', [CarritoController::class, 'vaciar'])->name('carrito.vaciar'); // Nueva ruta para vaciar el carrito
-    Route::get('/pago', [CarritoController::class, 'pago'])->name('pago'); // Nueva ruta para la página de pago
-    Route::post('/pago/procesar', [CarritoController::class, 'procesarPago'])->name('pago.procesar'); // Nueva ruta para procesar el pago
+    Route::delete('/carrito', [CarritoController::class, 'vaciar'])->name('carrito.vaciar');
+    Route::get('/pago', [CarritoController::class, 'pago'])->name('pago');
+    Route::post('/pago/procesar', [CarritoController::class, 'procesarPago'])->name('pago.procesar');
 });
 
 Route::resource('categorias', CategoriaController::class)->except(['create', 'edit']);
 Route::resource('productos', ProductoController::class)->except(['create', 'edit']);
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+
+Route::get('/checkout', [PayPalController::class, 'index']);
+Route::get('/create/{amount}', [PayPalController::class, 'create']);
+Route::post('/complete', [PayPalController::class, 'complete']);
+Route::post('/paypal/pay', [PayPalController::class, 'redirectToPayPal'])->name('paypal.pay');
