@@ -268,6 +268,16 @@
             font-size: 1.2rem;
             color: var(--color-fondo-1);
         }
+
+        #cart-icon {
+            position: relative;
+        }
+
+        .fly-to-cart {
+            position: absolute;
+            z-index: 1000;
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
     </style>
 </head>
  
@@ -288,6 +298,12 @@
                         @csrf
                         <button type="submit" style="background: none; border: none; color: var(--color-texto-principal); font-weight: bold; font-size: 1.2rem; cursor: pointer; padding: 0; margin: 0;">Cerrar Sesión</button>
                     </form>
+                </li>
+                <li>
+                    <a href="{{ route('carrito.mostrar') }}" id="cart-icon">
+                        <img class="logo" src="{{ asset('cesta.png') }}" alt="Cesta" style="width: 60px; height: 50px;">
+                        <span id="cart-count" class="badge bg-secondary">{{ $carrito->sum('cantidad') ?? 0 }}</span>
+                    </a>
                 </li>
                 @endauth
             </ul>
@@ -317,10 +333,10 @@
                         <p class="card-text">{{ $producto->descripcion }}</p>
                         <p class="price">{{ $producto->precio }}€</p>
                         @auth
-                        <form method="POST" action="{{ route('paypal.pay') }}">
+                        <form method="POST" action="{{ route('carrito.agregar') }}">
                             @csrf
                             <input type="hidden" name="idProducto" value="{{ $producto->id }}">
-                            <button type="submit" class="btn btn-success">Pagar Ahora</button>
+                            <button type="submit" class="btn btn-success">Añadir al Carrito</button>
                         </form>
                         @endauth
                     </div>
@@ -341,6 +357,29 @@
                 form.addEventListener('submit', function(event) {
                     event.preventDefault();
                     const formData = new FormData(form);
+                    const productImage = form.closest('.card').querySelector('.card-img-top');
+                    const flyImage = productImage.cloneNode(true);
+                    flyImage.classList.add('fly-to-cart');
+                    document.body.appendChild(flyImage);
+
+                    const cartIcon = document.getElementById('cart-icon');
+                    const cartIconRect = cartIcon.getBoundingClientRect();
+                    const productImageRect = productImage.getBoundingClientRect();
+
+                    flyImage.style.left = `${productImageRect.left}px`;
+                    flyImage.style.top = `${productImageRect.top}px`;
+                    flyImage.style.width = `${productImageRect.width}px`;
+                    flyImage.style.height = `${productImageRect.height}px`;
+
+                    setTimeout(() => {
+                        flyImage.style.transform = `translate(${cartIconRect.left - productImageRect.left}px, ${cartIconRect.top - productImageRect.top}px) scale(0.1)`;
+                        flyImage.style.opacity = '0';
+                    }, 0);
+
+                    flyImage.addEventListener('transitionend', () => {
+                        flyImage.remove();
+                    });
+
                     fetch(form.action, {
                         method: 'POST',
                         headers: {
@@ -367,6 +406,7 @@
                             }
                             localStorage.setItem('carrito', JSON.stringify(carrito));
                             actualizarListaCarrito();
+                            actualizarContadorCarrito();
                         } else {
                             console.error('Error al agregar el producto al carrito');
                         }
@@ -389,7 +429,14 @@
                 }
             }
 
+            function actualizarContadorCarrito() {
+                const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+                const contador = carrito.reduce((total, item) => total + item.cantidad, 0);
+                document.getElementById('cart-count').innerText = contador;
+            }
+
             actualizarListaCarrito();
+            actualizarContadorCarrito();
         });
 
         function searchProducts() {

@@ -260,42 +260,6 @@
             overflow-y: auto; /* Permitir desplazamiento vertical en el main */
         }
  
-        .tip-options {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
- 
-        .tip-options input[type="radio"] {
-            display: none;
-        }
- 
-        .tip-options label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #28a745;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
- 
-        .tip-options input[type="radio"]:checked + label {
-            background-color: #218838;
-        }
- 
-        .tip-amount {
-            margin-top: 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--color-secundario);
-        }
- 
     </style>
 </head>
  
@@ -368,15 +332,6 @@
         <div class="total-price">
             <h3>Precio Total: {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) }}€</h3>
         </div>
-        <div class="tip-options">
-            <input type="radio" id="tip-10" name="tip" value="10">
-            <label for="tip-10">10%</label>
-            <input type="radio" id="tip-20" name="tip" value="20">
-            <label for="tip-20">20%</label>
-            <input type="radio" id="tip-30" name="tip" value="30">
-            <label for="tip-30">30%</label>
-        </div>
-        <div class="tip-amount" id="tip-amount">Propina: 0€</div>
         <form action="{{ route('carrito.vaciar') }}" method="POST">
             @csrf
             @method('DELETE')
@@ -395,18 +350,6 @@
             vaciarCarritoForm.addEventListener('submit', function(event) {
                 localStorage.removeItem('carrito');
                 document.getElementById('click-count').innerText = 0;
-            });
-
-            const tipOptions = document.querySelectorAll('input[name="tip"]');
-            const tipAmountElement = document.getElementById('tip-amount');
-            const totalPrice = {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) }};
- 
-            tipOptions.forEach(option => {
-                option.addEventListener('change', function() {
-                    const tipPercentage = parseInt(this.value);
-                    const tipAmount = (totalPrice * tipPercentage / 100).toFixed(2);
-                    tipAmountElement.textContent = `Propina: ${tipAmount}€`;
-                });
             });
 
             function actualizarContadorCarrito() {

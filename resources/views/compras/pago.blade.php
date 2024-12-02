@@ -237,6 +237,22 @@
     </footer>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tipOptions = document.querySelectorAll('input[name="tip"]');
+            const tipAmountElement = document.getElementById('tip-amount');
+            const totalWithTipElement = document.getElementById('total-with-tip');
+            const totalPrice = {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) }};
+
+            tipOptions.forEach(option => {
+                option.addEventListener('change', function() {
+                    const tipPercentage = parseInt(this.value);
+                    const tipAmount = (totalPrice * tipPercentage / 100).toFixed(2);
+                    tipAmountElement.textContent = tipAmount + '€';
+                    totalWithTipElement.textContent = (parseFloat(totalPrice) + parseFloat(tipAmount)).toFixed(2) + '€';
+                });
+            });
+        });
+
         paypal.Buttons({
             createOrder: function(data, actions) {
                 return actions.order.create({

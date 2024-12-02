@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Producto;
+use App\Models\CartItem;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -11,7 +12,8 @@ class ProductoController extends Controller
     public function index()
     {
         $productos = Producto::all();
-        return view('productos.index', compact('productos'));
+        $carrito = CartItem::with('producto')->where('user_id', auth()->id())->get();
+        return view('productos.index', compact('productos', 'carrito'));
     }
 
     public function store(Request $request)
