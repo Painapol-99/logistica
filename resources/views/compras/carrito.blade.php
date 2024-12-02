@@ -260,6 +260,42 @@
             overflow-y: auto; /* Permitir desplazamiento vertical en el main */
         }
  
+        .tip-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+ 
+        .tip-options input[type="radio"] {
+            display: none;
+        }
+ 
+        .tip-options label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #28a745;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+ 
+        .tip-options input[type="radio"]:checked + label {
+            background-color: #218838;
+        }
+ 
+        .tip-amount {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--color-secundario);
+        }
+ 
     </style>
 </head>
  
@@ -332,19 +368,22 @@
         <div class="total-price">
             <h3>Precio Total: {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) }}€</h3>
         </div>
-        <form action="{{ route('pago') }}" method="GET">
-            <button type="submit" class="btn btn-success">Confirmar Compra</button>
-        </form>
-        <div class="d-flex justify-content-center gap-2 mt-2">
-            
-            <a href="/dashboard" class="btn btn-primary">Volver a la tienda</a>
-            <form action="{{ route('carrito.vaciar') }}" method="POST" id="vaciar-carrito-form">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">Vaciar Carrito</button>
-            </form>
-            <a href="/productos" class="btn btn-secondary">Volver a comprar</a>
+        <div class="tip-options">
+            <input type="radio" id="tip-10" name="tip" value="10">
+            <label for="tip-10">10%</label>
+            <input type="radio" id="tip-20" name="tip" value="20">
+            <label for="tip-20">20%</label>
+            <input type="radio" id="tip-30" name="tip" value="30">
+            <label for="tip-30">30%</label>
         </div>
+        <div class="tip-amount" id="tip-amount">Propina: 0€</div>
+        <form action="{{ route('carrito.vaciar') }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger mt-2">Vaciar Carrito</button>
+        </form>
+        <a href="/dashboard" class="btn btn-primary mt-2">Volver a la tienda</a>
+        <a href="{{ route('pago') }}" class="btn btn-success mt-2">Confirmar Compra</a>
     </main>
  
     <footer>
@@ -360,7 +399,6 @@
 
             const tipOptions = document.querySelectorAll('input[name="tip"]');
             const tipAmountElement = document.getElementById('tip-amount');
-            const tipInput = document.getElementById('tip-input');
             const totalPrice = {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) }};
  
             tipOptions.forEach(option => {
@@ -368,7 +406,6 @@
                     const tipPercentage = parseInt(this.value);
                     const tipAmount = (totalPrice * tipPercentage / 100).toFixed(2);
                     tipAmountElement.textContent = `Propina: ${tipAmount}€`;
-                    tipInput.value = tipAmount;
                 });
             });
 
@@ -384,4 +421,3 @@
 </body>
  
 </html>
-

@@ -7,6 +7,7 @@
     <title>Página de Pago - LogFood</title>
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Sofadi+One&family=Teko:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://www.paypal.com/sdk/js?client-id={{ config('paypal.client_id') }}&currency=GBP"></script>
     <style>
         :root {
             --color-fondo-1: #FF6F61;
@@ -228,15 +229,7 @@
         <div class="total-with-tip">
             <h3>Total con Propina: <span id="total-with-tip">{{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) + request()->get('tip', 0) }}</span>€</h3>
         </div>
-        <form action="{{ route('pago.procesar') }}" method="POST">
-            @csrf
-            <input type="hidden" name="tip" id="tip-input" value="{{ request()->get('tip', 0) }}">
-            <button type="submit" class="btn btn-success mt-2">Pagar Ahora</button>
-        </form>
-        <div class="d-flex justify-content-center gap-2 mt-2">
-            <a href="/dashboard" class="btn btn-primary">Volver a la tienda</a>
-            <a href="/productos" class="btn btn-secondary">Volver a comprar</a>
-        </div>
+        <div id="paypal-button-container"></div>
     </main>
 
     <footer>
@@ -244,23 +237,26 @@
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const tipOptions = document.querySelectorAll('input[name="tip"]');
-            const tipAmountElement = document.getElementById('tip-amount');
-            const tipInput = document.getElementById('tip-input');
-            const totalPriceElement = document.getElementById('total-with-tip');
-            const totalPrice = {{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) }};
-
-            tipOptions.forEach(option => {
-                option.addEventListener('change', function() {
-                    const tipPercentage = parseInt(this.value);
-                    const tipAmount = (totalPrice * tipPercentage / 100).toFixed(2);
-                    tipAmountElement.textContent = tipAmount;
-                    tipInput.value = tipAmount;
-                    totalPriceElement.textContent = (parseFloat(totalPrice) + parseFloat(tipAmount)).toFixed(2);
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '{{ $carrito->sum(function($item) { return $item->producto->precio * $item->cantidad; }) + $tip }}'
+                        }
+                    }]
                 });
-            });
-        });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                    // Aquí puedes redirigir al usuario a una página de confirmación o realizar otras acciones
+                });
+            },
+            onError: function(err) {
+                console.error(err);
+            }
+        }).render('#paypal-button-container');
     </script>
 </body>
 

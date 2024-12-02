@@ -58,22 +58,6 @@
                 background-position: 100% 100%;
             }
         }
-
-        @keyframes moveToCart {
-            0% {
-                transform: scale(1) translate(0, 0);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(0.1) translate(calc(100vw - 100px), calc(-100vh + 100px));
-                opacity: 0;
-            }
-        }
-        .move-to-cart {
-            animation: moveToCart 1s forwards;
-            position: absolute;
-            z-index: 1000;
-        }
  
         header {
             width: 100%;
@@ -305,12 +289,6 @@
                         <button type="submit" style="background: none; border: none; color: var(--color-texto-principal); font-weight: bold; font-size: 1.2rem; cursor: pointer; padding: 0; margin: 0;">Cerrar Sesión</button>
                     </form>
                 </li>
-                <li>
-                    <a href="{{ route('carrito.mostrar') }}">
-                        <img class="logo" src="{{ asset('cesta.png') }}" alt="Cesta" style="width: 60px; height: 50px;">
-                        <span id="cart-count" class="badge bg-secondary">{{ $totalItems ?? 0 }}</span>
-                    </a>
-                </li>
                 @endauth
             </ul>
         </nav>
@@ -339,10 +317,10 @@
                         <p class="card-text">{{ $producto->descripcion }}</p>
                         <p class="price">{{ $producto->precio }}€</p>
                         @auth
-                        <form method="POST" action="{{ route('carrito.agregar') }}">
+                        <form method="POST" action="{{ route('paypal.pay') }}">
                             @csrf
                             <input type="hidden" name="idProducto" value="{{ $producto->id }}">
-                            <button type="submit" class="btn btn-success">Agregar al Carrito</button>
+                            <button type="submit" class="btn btn-success">Pagar Ahora</button>
                         </form>
                         @endauth
                     </div>
@@ -363,20 +341,6 @@
                 form.addEventListener('submit', function(event) {
                     event.preventDefault();
                     const formData = new FormData(form);
-                    const img = form.closest('.card').querySelector('.card-img-top');
-                    const clonedImg = img.cloneNode(true);
-                    const rect = img.getBoundingClientRect();
-                    clonedImg.style.position = 'absolute';
-                    clonedImg.style.top = `${rect.top}px`;
-                    clonedImg.style.left = `${rect.left}px`;
-                    clonedImg.style.width = `${rect.width}px`;
-                    clonedImg.style.height = `${rect.height}px`;
-                    clonedImg.classList.add('move-to-cart');
-                    document.body.appendChild(clonedImg);
-                    setTimeout(() => {
-                        clonedImg.remove();
-                    }, 1000);
-
                     fetch(form.action, {
                         method: 'POST',
                         headers: {
@@ -403,7 +367,6 @@
                             }
                             localStorage.setItem('carrito', JSON.stringify(carrito));
                             actualizarListaCarrito();
-                            actualizarContadorCarrito(data.totalItems);
                         } else {
                             console.error('Error al agregar el producto al carrito');
                         }
@@ -426,20 +389,7 @@
                 }
             }
 
-            function actualizarContadorCarrito(totalItems) {
-                document.getElementById('cart-count').innerText = totalItems;
-            }
-
-            function fetchTotalItems() {
-                fetch('{{ route('carrito.totalItems') }}')
-                    .then(response => response.json())
-                    .then(data => {
-                        actualizarContadorCarrito(data.totalItems);
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
-
-            fetchTotalItems();
+            actualizarListaCarrito();
         });
 
         function searchProducts() {
